@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <title>Гар хийцийн гутлын дэлгүүр</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .order-form { background: #f4f4f4; padding: 20px; border-radius: 8px; margin-top: 50px; }
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ccc; }
+        button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Манай дэлгүүрт тавтай морилно уу</h1>
+    <p>Бараануудыг админ хэсгээс оруулсны дараа энд харагдах болно.</p>
+
+    <div class="order-form">
+        <h2>Захиалга өгөх</h2>
+        <form name="orders" method="POST" data-netlify="true">
+            <label>Таны нэр:</label>
+            <input type="text" name="name" required placeholder="Нэрээ бичнэ үү">
+            
+            <label>Утасны дугаар:</label>
+            <input type="tel" name="phone" required placeholder="88******">
+            
+            <label>Захиалах барааны нэр:</label>
+            <input type="text" name="product" required placeholder="Гутлын нэр, хэмжээ">
+            
+            <label>Нэмэлт тайлбар (Хаяг гэх мэт):</label>
+            <textarea name="message" rows="4"></textarea>
+            
+            <button type="submit">Захиалга илгээх</button>
+        </form>
+    </div>
+
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+          }
+        });
+      }
+    </script>
+</body>
+</html>
