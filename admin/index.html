@@ -1,12 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="mn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уран Хийц | Гар хийцийн гутлын дэлгүүр</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <header>
+        <nav>
+            <div class="logo">URAN HIITS</div>
+            <ul>
+                <li><a href="#home">Нүүр</a></li>
+                <li><a href="#products">Бүтээгдэхүүн</a></li>
+                <li><a href="#order">Захиалга</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Уран Хийц - Гар урлалын дээж</h1>
+            <p>Чанар болон уламжлалыг хослуулсан гар хийцийн гутлын захиалга.</p>
+            <a href="#order" class="btn">Одоо захиалах</a>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2 class="section-title">Манай бүтээгдэхүүнүүд</h2>
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <div class="product-img">👞</div>
+                <h3>Монгол гутал</h3>
+                <p>Уламжлалт аргаар, цэвэр арьсаар урласан.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">🎪</div>
+                <h3>Циркийн гутал</h3>
+                <p>Акробат болон морьт үзүүлбэрт зориулсан тусгай хийц.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">🛠️</div>
+                <h3>Захиалгат гутал</h3>
+                <p>Таны хүссэн загвар, хэмжээгээр урлана.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="order">
+        <div class="order-container">
+            <h2>Захиалга өгөх</h2>
+            <form name="orders" method="POST" data-netlify="true">
+                <div class="input-group">
+                    <label>Таны нэр:</label>
+                    <input type="text" name="name" required placeholder="Нэрээ бичнэ үү">
+                </div>
+                <div class="input-group">
+                    <label>Утасны дугаар:</label>
+                    <input type="tel" name="phone" required placeholder="88******">
+                </div>
+                <div class="input-group">
+                    <label>Сонирхож буй гутал:</label>
+                    <select name="product_type">
+                        <option value="mongol">Монгол гутал</option>
+                        <option value="circus">Циркийн гутал</option>
+                        <option value="custom">Бусад захиалга</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Нэмэлт тайлбар:</label>
+                    <textarea name="message" rows="4" placeholder="Хэмжээ, өнгө гэх мэт..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Захиалга илгээх</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Уран Хийц | Б. Энхсайхан. Бүх эрх хуулиар хамгаалагдсан.</p>
+    </footer>
+
 </body>
 </html>
