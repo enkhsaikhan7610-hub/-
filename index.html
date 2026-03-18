@@ -31,11 +31,11 @@
         </div>
 
         <div class="delivery-option">
-            <label>
-                <input type="checkbox" id="delivery-check"> Хүргэлт авах (+15,000 ₮)
+            <label style="display: flex; align-items: center; cursor: pointer;">
+                <input type="checkbox" id="delivery-check" style="margin-right: 10px;"> Хүргэлт авах (+15,000 ₮)
             </label>
             <div id="address-field" style="display: none;">
-                <input type="text" id="delivery_address" name="address" placeholder="Хүргэлтийн хаяг...">
+                <input type="text" id="delivery_address" name="address" placeholder="Хүргэлтийн хаяг оруулна уу...">
             </div>
         </div>
 
@@ -45,15 +45,16 @@
             <p>Нийт дүн: <strong id="total-amount">0</strong> ₮</p>
         </div>
 
-        <form name="shoe-orders" method="POST" data-netlify="true">
-            <input type="hidden" name="details" id="hidden-details">
-            <input type="hidden" name="total_price" id="hidden-total">
-            <input type="text" name="name" placeholder="Таны нэр" required>
-            <input type="tel" name="phone" placeholder="Утасны дугаар" required>
+        <form name="shoe-orders" method="POST" data-netlify="true" action="/">
+            <input type="hidden" name="order_details" id="hidden-details">
+            <input type="hidden" name="final_price" id="hidden-total">
+            
+            <input type="text" name="customer_name" placeholder="Таны нэр" required>
+            <input type="tel" name="customer_phone" placeholder="Утасны дугаар" required>
             
             <div class="payment-info">
                 <p>Хаан банк: <strong>5000XXXXXX</strong> (Б. Энхсайхан)</p>
-                <p>Утга: Утасны дугаараа бичээрэй.</p>
+                <p>Гүйлгээний утга: Утасны дугаараа бичнэ үү.</p>
             </div>
             <button type="submit" class="btn-submit" id="submit-btn" disabled>Гутал сонгоно уу</button>
         </form>
