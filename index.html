@@ -3,69 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Уран Хийц | Захиалгын систем</title>
+    <title>Уран Хийц | Захиалга</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
-    <nav>
-        <div class="logo">URAN HIITS</div>
-    </nav>
+    <nav><div class="logo">URAN HIITS</div></nav>
 </header>
 
 <section class="container">
-    <h2>Гар хийцийн гутал захиалах</h2>
-    
     <div class="order-card">
-        <div class="product-info">
-            <h3>Монгол гутал (Сүрлэг хийц)</h3>
-            <p class="price-tag">Нэгж үнэ: <span id="unit-price">250000</span> ₮</p>
-        </div>
+        <h2>Гар хийцийн гутал захиалга</h2>
+        <p class="price-tag">Нэгж үнэ: 250,000 ₮</p>
 
         <div class="size-selection">
-            <p>Хэмжээ сонгох (Олноор сонгож болно):</p>
-            <div class="sizes">
-                <label><input type="checkbox" class="size-check" value="38"> 38</label>
-                <label><input type="checkbox" class="size-check" value="39"> 39</label>
-                <label><input type="checkbox" class="size-check" value="40"> 40</label>
-                <label><input type="checkbox" class="size-check" value="41"> 41</label>
-                <label><input type="checkbox" class="size-check" value="42"> 42</label>
-                <label><input type="checkbox" class="size-check" value="43"> 43</label>
+            <p>Хэмжээ тус бүрийн тоог оруулна уу:</p>
+            <div class="size-grid">
+                <div class="size-row"><span>38:</span> <input type="number" class="size-input" data-size="38" value="0" min="0"></div>
+                <div class="size-row"><span>39:</span> <input type="number" class="size-input" data-size="39" value="0" min="0"></div>
+                <div class="size-row"><span>40:</span> <input type="number" class="size-input" data-size="40" value="0" min="0"></div>
+                <div class="size-row"><span>41:</span> <input type="number" class="size-input" data-size="41" value="0" min="0"></div>
+                <div class="size-row"><span>42:</span> <input type="number" class="size-input" data-size="42" value="0" min="0"></div>
+                <div class="size-row"><span>43:</span> <input type="number" class="size-input" data-size="43" value="0" min="0"></div>
             </div>
         </div>
 
-        <div class="quantity-section">
-            <label>Нийт тоо ширхэг (Минимум 10):</label>
-            <input type="number" id="quantity" value="10" min="10">
+        <div class="delivery-option">
+            <label>
+                <input type="checkbox" id="delivery-check"> Хүргэлт авах (+15,000 ₮)
+            </label>
+            <div id="address-field" style="display: none;">
+                <input type="text" id="delivery_address" name="address" placeholder="Хүргэлтийн хаяг...">
+            </div>
         </div>
 
         <div class="total-section">
-            <p>Нийт дүн: <strong id="total-amount">2,500,000</strong> ₮</p>
-            <p id="error-msg" style="color: red; display: none;">* Хамгийн багадаа 10 ширхэгийг захиалах боломжтой.</p>
+            <p>Нийт гутал: <strong id="total-qty">0</strong> ширхэг</p>
+            <p>Хүргэлт: <strong id="delivery-price">0</strong> ₮</p>
+            <p>Нийт дүн: <strong id="total-amount">0</strong> ₮</p>
         </div>
 
-        <form name="shoe-orders" method="POST" data-netlify="true" id="order-form">
-            <input type="hidden" name="selected_sizes" id="hidden-sizes">
+        <form name="shoe-orders" method="POST" data-netlify="true">
+            <input type="hidden" name="details" id="hidden-details">
             <input type="hidden" name="total_price" id="hidden-total">
-            
-            <input type="text" name="customer_name" placeholder="Таны нэр" required>
-            <input type="tel" name="customer_phone" placeholder="Утасны дугаар" required>
+            <input type="text" name="name" placeholder="Таны нэр" required>
+            <input type="tel" name="phone" placeholder="Утасны дугаар" required>
             
             <div class="payment-info">
-                <h4>Төлбөр төлөх:</h4>
                 <p>Хаан банк: <strong>5000XXXXXX</strong> (Б. Энхсайхан)</p>
-                <p>Гүйлгээний утга дээр утасны дугаараа бичнэ үү.</p>
+                <p>Утга: Утасны дугаараа бичээрэй.</p>
             </div>
-
-            <button type="submit" class="btn-submit" id="submit-btn">Захиалга илгээх</button>
+            <button type="submit" class="btn-submit" id="submit-btn" disabled>Гутал сонгоно уу</button>
         </form>
     </div>
 </section>
-
-<div id="fb-root"></div>
-<div id="fb-customer-chat" class="fb-customerchat"></div>
 
 <script src="script.js"></script>
 </body>
