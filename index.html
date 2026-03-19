@@ -3,110 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Уран Хийц | Захиалга</title>
+    <title>УРАН ХИЙЦ | Тансаг зэрэглэлийн гар хийцийн гутал</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        
-        /* Зургийн хэсэг */
-        .product-image { width: 100%; height: 300px; background: #eee; border-radius: 15px; margin-bottom: 20px; object-fit: cover; display: block; }
-        
-        h2 { text-align: center; color: #1a1a1a; margin-bottom: 5px; }
-        .price-tag { text-align: center; color: #c5a059; font-size: 24px; font-weight: bold; margin-bottom: 25px; }
-        
-        .size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .size-item { display: flex; justify-content: space-between; align-items: center; background: #f1f3f5; padding: 10px 15px; border-radius: 10px; }
-        .size-item input { width: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; text-align: center; font-size: 16px; }
+        :root {
+            --gold: #d4af37;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-gray: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
-        .delivery-section { background: #e7f5ff; padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 5px solid #228be6; }
-        .total-section { background: #fff9db; padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 5px solid #fab005; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
         
-        input[type="text"], input[type="tel"] { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #dee2e6; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        body {
+            margin: 0; font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg); color: white;
+            padding-bottom: 140px; overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION MENU --- */
+        .nav-header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; justify-content: space-around; align-items: center; padding: 10px 0;
+        }
+        .nav-header a {
+            color: var(--text-gray); text-decoration: none; font-size: 10px;
+            text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+        }
+        .nav-header a:hover { color: var(--gold); }
+        .nav-logo-small { height: 30px; width: auto; } /* Дээд талын жижиг лого */
+
+        /* --- BRAND LOGO SECTION --- */
+        .brand-container {
+            text-align: center;
+            padding: 50px 20px 20px;
+        }
+        .main-logo {
+            width: 280px; /* Логоны хэмжээ */
+            max-width: 85%;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3)); /* Алтлаг гэрэлтэлт */
+        }
+
+        section { padding: 40px 20px; border-bottom: 1px solid var(--glass-border); }
+        .section-title { color: var(--gold); text-align: center; font-family: serif; font-size: 22px; margin-bottom: 25px; }
+
+        .about-box { text-align: center; color: var(--text-gray); line-height: 1.6; font-size: 14px; max-width: 600px; margin: 0 auto; }
         
-        .btn-submit { width: 100%; padding: 18px; background: #1a1a1a; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-submit:disabled { background: #adb5bd; cursor: not-allowed; }
-        .payment-note { font-size: 13px; color: #868e96; text-align: center; margin-top: 15px; }
+        .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .service-item { background: var(--card-bg); padding: 15px 5px; border-radius: 15px; text-align: center; border: 1px solid var(--glass-border); }
+        .service-item h4 { margin: 0 0 5px; color: var(--gold); font-size: 12px; }
+        .service-item p { font-size: 10px; color: var(--text-gray); margin: 0; }
+
+        /* --- PRODUCT LIST --- */
+        #product-list { display: flex; gap: 15px; overflow-x: auto; padding: 15px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        #product-list::-webkit-scrollbar { display: none; }
+
+        .product-card { min-width: 85vw; max-width: 350px; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 30px; scroll-snap-align: center; flex-shrink: 0; overflow: hidden; }
+        .product-img { width: 100%; height: 240px; object-fit: cover; }
+        .card-content { padding: 15px; }
+        .price-tag { color: var(--gold); font-size: 18px; font-weight: 700; margin-bottom: 10px; display: block; }
+        
+        .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 5px 0; }
+        .size-item { height: 50px; background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .size-item span { font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: -2px; }
+        .size-item input { width: 100%; border: none; background: transparent; color: white; text-align: center; font-weight: 700; font-size: 16px; outline: none; padding: 0; }
+
+        /* --- ORDER FORM --- */
+        .container { max-width: 500px; margin: 0 auto; }
+        .order-section { background: rgba(212, 175, 55, 0.03); padding: 25px; border-radius: 25px; border: 1px dashed var(--gold); }
+        input[type="text"], input[type="tel"] { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px; color: white; margin-bottom: 10px; outline: none; font-size: 15px; }
+
+        .footer-bar { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .checkout-btn { background: var(--gold); color: black; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        .checkout-btn:disabled { background: #333; color: #666; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: #111; border: 1px solid var(--gold); width: 100%; max-width: 380px; border-radius: 30px; padding: 25px; text-align: center; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=2012&auto=format&fit=crop" alt="Гар хийцийн гутал" class="product-image">
+<nav class="nav-header">
+    <a href="#about">Бидний тухай</a>
+    <img src="https://i.postimg.cc/PrZQPYHB/Luxury-Mongolian-footwear-logo-design-removebg-preview.png" class="nav-logo-small" alt="Logo">
+    <a href="#products">Бүтээгдэхүүн</a>
+</nav>
 
-    <h2>Уран Хийц</h2>
-    <p class="price-tag">250,000 ₮</p>
+<div class="brand-container">
+    <img src="https://i.postimg.cc/PrZQPYHB/Luxury-Mongolian-footwear-logo-design-removebg-preview.png" class="main-logo" alt="УРАН ХИЙЦ">
+</div>
 
-    <div class="size-grid">
-        <div class="size-item"><span>38 размер</span> <input type="number" class="qty" data-size="38" value="0" min="0"></div>
-        <div class="size-item"><span>39 размер</span> <input type="number" class="qty" data-size="39" value="0" min="0"></div>
-        <div class="size-item"><span>40 размер</span> <input type="number" class="qty" data-size="40" value="0" min="0"></div>
-        <div class="size-item"><span>41 размер</span> <input type="number" class="qty" data-size="41" value="0" min="0"></div>
-        <div class="size-item"><span>42 размер</span> <input type="number" class="qty" data-size="42" value="0" min="0"></div>
-        <div class="size-item"><span>43 размер</span> <input type="number" class="qty" data-size="43" value="0" min="0"></div>
+<section id="about">
+    <h2 class="section-title">Бидний тухай</h2>
+    <div class="about-box">
+        <p>Монгол дархны уран ухаан, орчин үеийн загварын чиг хандлагыг нэгтгэн, дээд зэрэглэлийн арьсаар зөвхөн танд зориулсан гутлыг урлаж байна.</p>
     </div>
+</section>
 
-    <div class="delivery-section">
-        <label style="display: flex; align-items: center; font-weight: bold; cursor: pointer;">
-            <input type="checkbox" id="delivery-check" style="width: 20px; height: 20px; margin-right: 10px;"> Хүргэлт авах (+15,000 ₮)
-        </label>
-        <input type="text" id="address" placeholder="Хүргэлтийн хаяг бичнэ үү" style="display: none;">
+<section id="products">
+    <h2 class="section-title">Бүтээгдэхүүн</h2>
+    <div id="product-list"></div>
+</section>
+
+<section id="services">
+    <div class="service-grid">
+        <div class="service-item"><h4>Гар хийц</h4><p>100% чанар</p></div>
+        <div class="service-item"><h4>Захиалга</h4><p>Хэмжээгээр</p></div>
+        <div class="service-item"><h4>Хүргэлт</h4><p>Түргэн шуурхай</p></div>
     </div>
+</section>
 
-    <div class="total-section">
-        <p style="margin: 0; font-size: 18px;">Нийт гутал: <span id="total-qty">0</span> ш</p>
-        <p style="margin: 5px 0 0 0; font-size: 22px; font-weight: bold;">Нийт дүн: <span id="total-price">0</span> ₮</p>
+<section id="order" style="border-bottom: none; margin-bottom: 40px;">
+    <h2 class="section-title">Захиалга өгөх</h2>
+    <div class="container">
+        <form id="orderForm">
+            <div class="order-section">
+                <input type="text" id="p-name" placeholder="Таны нэр" required oninput="calc()">
+                <input type="tel" id="p-phone" placeholder="Утасны дугаар" required oninput="calc()">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer; margin-bottom: 10px;">
+                    <input type="checkbox" id="del-check" onchange="calc()" style="width: auto; margin: 0;"> 
+                    <span>Хүргэлтээр авах (+15,000₮)</span> </label>
+                <input type="text" id="address" placeholder="Хүргэлтийн хаяг" style="display:none;" oninput="calc()">
+            </div>
+        </form>
     </div>
+</section>
 
-    <form name="orders" method="POST" data-netlify="true" action="/">
-        <input type="hidden" name="order_details" id="hidden-details">
-        <input type="hidden" name="final_amount" id="hidden-total">
-        
-        <input type="text" name="customer_name" placeholder="Таны нэр" required>
-        <input type="tel" name="customer_phone" placeholder="Утасны дугаар" required>
-        
-        <button type="submit" id="submit-btn" class="btn-submit" disabled>Захиалга өгөх</button>
-    </form>
-    
-    <p class="payment-note">Хаан банк: 5000XXXXXX (Б. Энхсайхан)<br>Утга: Утасны дугаараа бичнэ үү.</p>
+<div class="footer-bar">
+    <div>
+        <div style="font-size: 8px; color: var(--text-gray);">НИЙТ ТӨЛӨХ</div>
+        <span id="res-total" style="font-size: 18px; color: var(--gold); font-weight: 800;">0</span><span style="font-size: 18px; color: var(--gold); font-weight: 800;">₮</span>
+    </div>
+    <button type="button" id="submit-btn" class="checkout-btn" disabled onclick="showPayment()">ЗАХИАЛАХ</button>
+</div>
+
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: var(--gold); font-size: 18px;">Захиалга баталгаажуулах</h2>
+        <div style="text-align: left; background: #000; padding: 12px; border-radius: 12px; margin: 15px 0; border-left: 3px solid var(--gold);">
+            <div style="font-size: 12px; margin-bottom: 4px;">ХасБанк: <b>5003793719</b></div>
+            <div style="font-size: 12px; margin-bottom: 4px;">Нэр: <b>Б.Энхсайхан</b></div>
+            <div style="font-size: 12px; margin-bottom: 4px;">Дүн: <b id="pay-total-val" style="color:var(--gold);">0₮</b></div>
+            <div style="font-size: 12px;">Утга: <b id="pay-phone-val">--</b></div>
+        </div>
+        <img id="qr-img" src="" alt="QR" style="width: 120px; border-radius: 8px; border: 4px solid white;">
+        <button type="button" onclick="closeAll()" style="width: 100%; padding: 12px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; margin-top: 15px;">ХААХ</button>
+    </div>
 </div>
 
 <script>
-    const price = 250000;
-    const deliveryPrice = 15000;
-    const inputs = document.querySelectorAll('.qty');
-    const deliveryCheck = document.getElementById('delivery-check');
+    const unitPrice = 250000;
+    const delFee = 15000;
+    const sizes = [36, 37, 38, 39, 40, 41, 42, 43];
+    const shoes = [
+        { name: "Тансаг Бор Лофер", img: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?q=80&w=500" },
+        { name: "Сонгодог Хар Челси", img: "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?q=80&w=500" },
+        { name: "Уламжлалт Уран Ботинк", img: "https://images.unsplash.com/photo-1520639889313-7272a747d942?q=80&w=500" },
+        { name: "Гоёлын Оксфорд", img: "https://images.unsplash.com/photo-1449505278894-297fdb3edbc1?q=80&w=500" }
+    ];
 
-    function update() {
-        let count = 0;
-        let details = "";
-        
-        inputs.forEach(i => {
-            let v = parseInt(i.value) || 0;
-            if(v > 0) {
-                count += v;
-                details += i.dataset.size + "р:" + v + "ш ";
-            }
-        });
+    let cart = {};
 
-        let delivery = deliveryCheck.checked ? deliveryPrice : 0;
-        document.getElementById('address').style.display = deliveryCheck.checked ? 'block' : 'none';
-
-        const final = (count * price) + delivery;
-        
-        document.getElementById('total-qty').innerText = count;
-        document.getElementById('total-price').innerText = final.toLocaleString();
-        
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = count === 0;
-        if(count > 0) btn.innerText = "Захиалга илгээх";
-        else btn.innerText = "Захиалга өгөх";
-
-        document.getElementById('hidden-details').value = details + (deliveryCheck.checked ? "| Хүргэлттэй" : "");
-        document.getElementById('hidden-total').value = final.toLocaleString() + " ₮";
+    function renderProducts() {
+        const list = document.getElementById('product-list');
+        list.innerHTML = shoes.map((shoe, i) => `
+            <div class="product-card">
+                <img class="product-img" src="${shoe.img}" alt="${shoe.name}">
+                <div class="card-content">
+                    <h3>${shoe.name}</h3>
+                    <span class="price-tag">250,000 ₮</span>
+                    <div class="size-grid">
+                        ${sizes.map(sz => `
+                            <div class="size-item">
+                                <span>${sz}</span>
+                                <input type="number" min="0" placeholder="0" value="${cart[`${i}-${sz}`] || ''}" oninput="updateCart('${i}-${sz}', this.value)">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `).join('');
     }
 
-    inputs.forEach(el => el.addEventListener('input', update));
-    deliveryCheck.addEventListener('change', update);
+    function updateCart(key, val) { cart[key] = parseInt(val) || 0; calc(); }
+
+    function calc() {
+        const isDel = document.getElementById('del-check').checked;
+        const name = document.getElementById('p-name').value;
+        const phone = document.getElementById('p-phone').value;
+        document.getElementById('address').style.display = isDel ? 'block' : 'none';
+        
+        let totalQty = 0;
+        for (let q of Object.values(cart)) totalQty += q;
+        const total = (totalQty * unitPrice) + (isDel && totalQty > 0 ? delFee : 0);
+        
+        document.getElementById('res-total').innerText = total.toLocaleString();
+        document.getElementById('submit-btn').disabled = !(totalQty > 0 && name && phone);
+        document.getElementById('pay-total-val').innerText = total.toLocaleString() + "₮";
+        document.getElementById('pay-phone-val').innerText = phone || "--";
+        document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=KhasBank-5003793719-Amount-${total}`;
+    }
+
+    function showPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+    function closeAll() { document.getElementById('paymentModal').style.display = 'none'; cart = {}; document.getElementById('orderForm').reset(); renderProducts(); calc(); window.scrollTo(0,0); }
+
+    window.onload = renderProducts;
 </script>
 
 </body>
