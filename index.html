@@ -13,64 +13,54 @@
     </script>
 
     <style>
-        /* Ерөнхий загвар */
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding-bottom: 100px; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 120px; }
         .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         .nav-logo-small { height: 40px; }
-        .brand-container { text-align: center; padding: 40px 20px; }
-        .main-logo { width: 150px; }
-        .section-title { text-align: center; color: #d4af37; text-transform: uppercase; letter-spacing: 2px; margin: 40px 0 20px; }
+        .brand-container { text-align: center; padding: 30px 20px; }
+        .main-logo { width: 120px; }
+        .section-title { text-align: center; color: #d4af37; text-transform: uppercase; letter-spacing: 2px; margin: 30px 0 20px; }
 
-        /* Бүтээгдэхүүний карт */
-        #product-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px; }
-        .product-card { background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222; }
-        .product-img { width: 100%; height: 300px; object-fit: cover; }
+        /* Бүтээгдэхүүний жагсаалт */
+        #product-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
+        .product-card:hover { border-color: #d4af37; }
+        .product-img { width: 100%; height: 320px; object-fit: cover; background: #222; }
         .card-content { padding: 20px; }
         .price-tag { color: #d4af37; font-weight: bold; font-size: 1.2em; display: block; margin-bottom: 15px; }
-        .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .size-item { background: #1a1a1a; padding: 5px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .size-item span { font-size: 12px; color: #777; display: block; }
-        .size-item input { width: 80%; background: transparent; border: none; color: #fff; text-align: center; font-weight: bold; outline: none; }
+        
+        .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .size-item { background: #1a1a1a; padding: 8px 4px; border-radius: 12px; text-align: center; border: 1px solid #333; }
+        .size-item span { font-size: 11px; color: #777; display: block; margin-bottom: 2px; }
+        .size-item input { width: 90%; background: transparent; border: none; color: #fff; text-align: center; font-weight: bold; outline: none; font-size: 14px; }
 
-        /* Захиалгын хэсэг - ТАНЫ ХҮССЭН ЗАСВАР ЭНД БАЙГАА */
+        /* Захиалгын хэсэг */
         .order-container { max-width: 500px; margin: 0 auto; padding: 25px; background: #111; border-radius: 25px; border: 1px solid #222; }
         .order-section input {
-            width: 100%;
-            padding: 18px 20px;
-            margin-bottom: 15px;
-            border-radius: 15px;
-            border: 1px solid #333;
-            background: #1a1a1a;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-            box-sizing: border-box; /* Өргөнийг яг таг тааруулна */
-            transition: border 0.3s ease;
+            width: 100%; padding: 18px 20px; margin-bottom: 15px; border-radius: 15px;
+            border: 1px solid #333; background: #1a1a1a; color: #fff; font-size: 16px;
+            outline: none; box-sizing: border-box; transition: 0.3s;
         }
-        .order-section input:focus { border-color: #d4af37; }
+        .order-section input:focus { border-color: #d4af37; background: #222; }
         
-        /* Имэйл оруулах хэсгийг бусадтай нь ижил болгох тусгай заавар */
-        #p-email { display: block; } 
-
-        /* Доод хэсэг (Footer Bar) */
-        .footer-bar { position: fixed; bottom: 0; width: 100%; background: #111; padding: 20px; border-top: 1px solid #222; display: flex; justify-content: space-around; align-items: center; box-sizing: border-box; }
+        /* Доод талбар */
+        .footer-bar { position: fixed; bottom: 0; width: 100%; background: #111; padding: 20px; border-top: 1px solid #222; display: flex; justify-content: space-around; align-items: center; box-sizing: border-box; z-index: 100; }
         .checkout-btn { background: #d4af37; color: #000; border: none; padding: 15px 40px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .checkout-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .checkout-btn:disabled { background: #333; color: #777; cursor: not-allowed; opacity: 0.5; }
 
-        /* Модал загвар */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: #111; padding: 30px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid #d4af37; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: #111; padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #d4af37; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <nav class="nav-header">
     <div class="lang-toggle">
-        <button onclick="setLang('mn')" style="background:none; color:#fff; border:none; cursor:pointer;">MN</button>
+        <button onclick="setLang('mn')" style="background:none; color:#fff; border:none; cursor:pointer; font-weight:bold;">MN</button>
+        <span style="color:#333;">|</span>
         <button onclick="setLang('en')" style="background:none; color:#777; border:none; cursor:pointer;">EN</button>
     </div>
     <img src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" class="nav-logo-small">
-    <div style="width: 50px;"></div>
+    <div style="width: 40px;"></div>
 </nav>
 
 <div class="brand-container">
@@ -82,13 +72,13 @@
     <div id="product-list"></div>
 </section>
 
-<section id="order" style="padding: 20px;">
+<section id="order" style="padding: 20px 10px;">
     <h2 class="section-title" id="t-order-title">Захиалга өгөх</h2>
     <div class="order-container">
         <div class="order-section">
-            <input type="text" id="p-name" placeholder="Таны нэр (Заавал)" oninput="calc()">
-            <input type="tel" id="p-phone" placeholder="Утасны дугаар (Заавал)" oninput="calc()">
-            <input type="email" id="p-email" placeholder="Имэйл хаяг (Заавал)" oninput="calc()">
+            <input type="text" id="p-name" placeholder="Таны нэр" oninput="calc()">
+            <input type="tel" id="p-phone" placeholder="Утасны дугаар" oninput="calc()">
+            <input type="email" id="p-email" placeholder="Имэйл хаяг (Баримт авахад заавал)" oninput="calc()">
             
             <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; margin: 10px 5px; color: #a0a0a0;">
                 <input type="checkbox" id="del-check" onchange="calc()" style="width: 18px; height: 18px;"> 
@@ -112,7 +102,7 @@
     <div class="modal-content" id="modal-body">
         <div style="font-size: 40px; color: #d4af37; margin-bottom: 10px;">✓</div>
         <h2 style="color: #d4af37; font-size: 18px;">Захиалга бүртгэгдлээ</h2>
-        <p style="font-size: 12px; color: #a0a0a0;">Захиалгын баримтыг таны имэйл рүү илгээлээ.</p>
+        <p style="font-size: 12px; color: #a0a0a0;">Баримтыг таны имэйл рүү илгээлээ.</p>
         
         <div style="text-align: left; background: #000; padding: 15px; border-radius: 15px; border: 1px solid #d4af37; margin: 15px 0;">
             <div style="font-size: 13px; margin-bottom: 5px;">Данс: <b>ХасБанк 5003793719</b></div>
@@ -121,7 +111,7 @@
             <div style="font-size: 15px;">Гүйлгээний утга: <b id="pay-order-id" style="color:#25D366;">#UK-0000</b></div>
         </div>
         
-        <img id="qr-img" src="" style="width: 140px; border-radius: 10px; margin-bottom: 15px;">
+        <img id="qr-img" src="" style="width: 140px; border-radius: 10px; margin-bottom: 15px; border: 3px solid #fff;">
         
         <button onclick="notifyPaymentSent()" style="width: 100%; padding: 15px; background: #d4af37; color: #000; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">ТӨЛБӨР ШИЛЖҮҮЛСЭН</button>
         <button onclick="window.location.reload()" style="margin-top: 15px; background: transparent; color: #777; border: none; cursor: pointer; text-decoration: underline;">Хаах</button>
@@ -136,9 +126,24 @@ let currentOrderID = "";
 let cart = {};
 let currentLang = 'mn';
 
+// БҮТЭЭГДЭХҮҮНИЙ ЖАГСААЛТ - ЭНД 10 БОЛГОЖ НЭМЛЭЭ
 const langData = {
-    mn: { products: "Бүтээгдэхүүн", order: "Захиалга өгөх", del: "Хүргэлт авах (+15,000₮)", total: "НИЙТ ТӨЛӨХ", btn: "ЗАХИАЛАХ", items: ["Сонгодог Лофер", "Уламжлалт Гутал", "Ажлын Ботинк", "Өдөр тутмын Оксфорд"] },
-    en: { products: "Products", order: "Order Now", del: "Delivery Service (+15,000₮)", total: "TOTAL AMOUNT", btn: "CHECKOUT", items: ["Classic Loafers", "Traditional Boots", "Work Boots", "Daily Oxfords"] }
+    mn: { 
+        products: "Бүтээгдэхүүн", order: "Захиалга өгөх", del: "Хүргэлт авах (+15,000₮)", total: "НИЙТ ТӨЛӨХ", btn: "ЗАХИАЛАХ",
+        items: [
+            "Сонгодог Лофер (Хар)", "Уламжлалт Гутал (Бор)", "Ажлын Ботинк", "Оксфорд Гутал", 
+            "Чөлөөт Пүүз", "Хагас түрийтэй гутал", "Зуны мокасин", "Спортын хөнгөн гутал", 
+            "Гоёлын ботинк", "Өвлийн дулаан гутал"
+        ] 
+    },
+    en: { 
+        products: "Products", order: "Order Now", del: "Delivery Service (+15,000₮)", total: "TOTAL AMOUNT", btn: "CHECKOUT",
+        items: [
+            "Classic Loafers", "Traditional Boots", "Work Boots", "Oxford Shoes", 
+            "Casual Sneakers", "Mid-Cut Boots", "Summer Moccasins", "Lightweight Sport", 
+            "Dress Shoes", "Winter Warm Boots"
+        ] 
+    }
 };
 
 function setLang(lang) {
@@ -158,7 +163,17 @@ function renderProducts() {
             const key = `${i}-${sz}`;
             return `<div class="size-item"><span>${sz}</span><input type="number" min="0" placeholder="0" value="${cart[key] || ''}" oninput="updateCart('${key}', this.value)"></div>`;
         }).join('');
-        return `<div class="product-card"><img class="product-img" src="https://picsum.photos/400/500?random=${i}"><div class="card-content"><h3>${name}</h3><span class="price-tag">${unitPrice.toLocaleString()} ₮</span><div class="size-grid">${sizeHtml}</div></div></div>`;
+        
+        // Зургийг random байдлаар харуулж байна. Та өөрийн зургийн линкийг энд орлуулж болно.
+        return `
+        <div class="product-card">
+            <img class="product-img" src="https://picsum.photos/400/500?random=${i+10}" alt="${name}">
+            <div class="card-content">
+                <h3>${name}</h3>
+                <span class="price-tag">${unitPrice.toLocaleString()} ₮</span>
+                <div class="size-grid">${sizeHtml}</div>
+            </div>
+        </div>`;
     }).join('');
 }
 
@@ -182,8 +197,12 @@ function calc() {
     document.getElementById('res-total').innerText = totalAmount.toLocaleString();
     
     const isEmailValid = email.includes('@') && email.includes('.');
-    const canSubmit = totalQty > 0 && name && phone.length >= 8 && isEmailValid;
-    document.getElementById('submit-btn').disabled = !canSubmit;
+    const canSubmit = totalQty > 0 && name.length > 1 && phone.length >= 8 && isEmailValid;
+    
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = !canSubmit;
+    btn.style.opacity = canSubmit ? "1" : "0.5";
+    
     document.getElementById('pay-total-val').innerText = totalAmount.toLocaleString() + "₮";
 }
 
@@ -196,7 +215,7 @@ function sendOrder() {
     let details = "";
     Object.keys(cart).forEach(k => {
         const [idx, sz] = k.split('-');
-        details += `${langData[currentLang].items[idx]} (SZ: ${sz}, ${cart[k]}ш); `;
+        details += `${langData[currentLang].items[idx]} (Хэмжээ: ${sz}, Тоо: ${cart[k]}); `;
     });
 
     const params = {
@@ -205,15 +224,18 @@ function sendOrder() {
         phone: document.getElementById('p-phone').value,
         user_email: document.getElementById('p-email').value,
         order_details: details,
-        address: document.getElementById('address').value || "Хүргэлтгүй",
+        address: document.getElementById('address').value || "Дэлгүүрээс авах",
         total_price: document.getElementById('res-total').innerText + "₮"
     };
 
     emailjs.send('service_izdours', 'g0dk3hw', params).then(() => {
         document.getElementById('pay-order-id').innerText = currentOrderID;
         document.getElementById('paymentModal').style.display = 'flex';
-        document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Bank:KhasBank|Acc:5003793719|Amount:${params.total_price}|Msg:${currentOrderID}`;
+        document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Bank:KhasBank|Acc:5003793719|Amount:${totalAmount}|Msg:${currentOrderID}`;
         btn.innerText = langData[currentLang].btn;
+        btn.disabled = false;
+    }).catch(err => {
+        alert("Алдаа гарлаа. Дахин оролдоно уу.");
         btn.disabled = false;
     });
 }
@@ -227,7 +249,7 @@ function notifyPaymentSent() {
         order_details: "ТӨЛБӨР ШИЛЖҮҮЛСЭН МЭДЭГДЭЛ"
     };
     emailjs.send('service_izdours', 'g0dk3hw', params).then(() => {
-        alert("Баярлалаа! Бид төлбөрийг шалгаад холбогдох болно.");
+        alert("Баярлалаа! Бид төлбөрийг шалгаад 24 цагийн дотор холбогдох болно.");
         window.location.reload();
     });
 }
