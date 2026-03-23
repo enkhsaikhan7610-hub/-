@@ -1,6 +1,7 @@
 const unitPrice = 250000;
 const delFee = 15000;
 const sizes = [38, 39, 40, 41, 42, 43, 44];
+let currentOrderID = "";
 
 const langData = {
     mn: {
@@ -62,18 +63,16 @@ function calc() {
     document.getElementById('pay-total-val').innerText = totalAmount.toLocaleString() + "₮";
 }
 
-// Захиалгын дугаар үүсгэх (Жишээ: UK-4821)
 function generateOrderID() {
-    return 'UK-' + Math.floor(1000 + Math.random() * 9000);
+    return '#UK-' + Math.floor(1000 + Math.random() * 9000);
 }
 
 function sendOrder() {
     const btn = document.getElementById('submit-btn');
-    const originalText = btn.innerText;
-    btn.innerText = langData[currentLang].btnSending;
+    btn.innerText = "Илгээж байна...";
     btn.disabled = true;
 
-    const orderID = generateOrderID();
+    currentOrderID = generateOrderID();
     let orderDetails = "";
     Object.keys(cart).forEach(key => {
         const [shoeIdx, size] = key.split('-');
@@ -81,36 +80,53 @@ function sendOrder() {
     });
 
     const templateParams = {
-        order_id: orderID,
+        order_id: currentOrderID,
         from_name: document.getElementById('p-name').value,
         phone: document.getElementById('p-phone').value,
         order_details: orderDetails,
-        address: document.getElementById('address').value || "Байхгүй",
+        address: document.getElementById('address').value || "Хүргэлтгүй",
         total_price: document.getElementById('res-total').innerText + "₮"
     };
 
     emailjs.send('service_izdours', 'template_ix01rik', templateParams)
         .then(() => {
-            // Модал дээр мэдээллийг харуулах
-            document.getElementById('pay-order-id').innerText = orderID;
+            document.getElementById('pay-order-id').innerText = currentOrderID;
             document.getElementById('paymentModal').style.display = 'flex';
-            
-            // QR Код (Гүйлгээний утга дээр Order ID-г оруулсан)
-            const qrData = `Bank:KhasBank|Acc:5003793719|Amount:${templateParams.total_price}|Msg:${orderID}`;
+            const qrData = `Bank:KhasBank|Acc:5003793719|Amount:${templateParams.total_price}|Msg:${currentOrderID}`;
             document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
-            
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }, (err) => {
-            alert("Алдаа гарлаа. Та дахин оролдоно уу.");
+            btn.innerText = langData[currentLang].btnReady;
             btn.disabled = false;
         });
 }
 
+function notifyPaymentSent() {
+    const btn = document.getElementById('payment-sent-btn');
+    btn.innerText = "Мэдэгдэж байна...";
+    btn.disabled = true;
+
+    const params = {
+        order_id: currentOrderID,
+        from_name: document.getElementById('p-name').value,
+        phone: document.getElementById('p-phone').value,
+        order_details: "Хэрэглэгч төлбөрөө шилжүүлсэн гэж мэдэгдлээ. Дансаа шалгана уу."
+    };
+
+    emailjs.send('service_izdours', 'template_ix01rik', params)
+        .then(() => {
+            document.getElementById('modal-body').innerHTML = `
+                <div style="padding: 30px 10px; text-align: center;">
+                    <div style="font-size: 50px; color: #25D366; margin-bottom: 15px;">✓</div>
+                    <h2 style="color: #d4af37; margin-bottom: 10px;">БАЯРЛАЛАА!</h2>
+                    <p style="font-size: 14px; color: #fff;">Мэдэгдэл илгээгдлээ. Бид төлбөрийг шалгаад тантай эргэж холбогдох болно.</p>
+                    <p style="margin-top: 20px; font-size: 12px; color: #777;">Дугаар: ${currentOrderID}</p>
+                    <button onclick="window.location.reload()" style="margin-top: 25px; width: 100%; padding: 12px; background: #333; color: #fff; border: none; border-radius: 10px; cursor: pointer;">Дуусгах</button>
+                </div>
+            `;
+        });
+}
+
 function closeAll() {
-    if(confirm("Захиалга хаах уу? Та захиалгын дугаараа тэмдэглэж авсан уу?")) {
-        window.location.reload();
-    }
+    if(confirm("Захиалгын дугаараа тэмдэглэсэн үү?")) window.location.reload();
 }
 
 window.onload = () => setLang('mn');
