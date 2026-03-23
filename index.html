@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
        (function(){
+          // Таны Public Key холбогдсон
           emailjs.init("nfT3fjYlvh2OVOO5W");
        })();
     </script>
@@ -20,12 +21,12 @@
         <a href="javascript:void(0)" id="btn-mn" onclick="setLang('mn')">MN</a>
         <a href="javascript:void(0)" id="btn-en" onclick="setLang('en')">EN</a>
     </div>
-    <img src="https://i.postimg.cc/PrZQPYHB/Logo.png" class="nav-logo-small" alt="Logo">
+    <img src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" class="nav-logo-small" alt="Logo">
     <a href="#products" id="t-nav-products" style="margin-right: 15px;">Бүтээгдэхүүн</a>
 </nav>
 
 <div class="brand-container">
-    <img src="https://i.postimg.cc/PrZQPYHB/Logo.png" class="main-logo" alt="УРАН ХИЙЦ">
+    <img src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" class="main-logo" alt="УРАН ХИЙЦ">
 </div>
 
 <section id="products">
@@ -57,24 +58,27 @@
 </div>
 
 <div id="paymentModal" class="modal">
-    <div class="modal-content">
-        <div id="success-icon" style="font-size: 50px; color: #25D366; margin-bottom: 10px;">✓</div>
-        <h2 id="t-modal-h2" style="color: #d4af37; font-size: 18px; margin-bottom: 5px;">Захиалга хүлээн авлаа</h2>
-        <p style="font-size: 13px; color: #a0a0a0; margin-bottom: 20px;">Таны захиалга Gmail-д бүртгэгдлээ.</p>
+    <div class="modal-content" id="modal-body">
+        <div id="success-icon" style="font-size: 40px; color: #d4af37; margin-bottom: 10px;">✓</div>
+        <h2 style="color: #d4af37; font-size: 18px; margin-bottom: 5px;">Захиалга бүртгэгдлээ</h2>
+        <p style="font-size: 12px; color: #a0a0a0; margin-bottom: 20px;">Зааврын дагуу төлбөрөө шилжүүлж баталгаажуулна уу.</p>
         
         <div style="text-align: left; background: #000; padding: 15px; border-radius: 15px; border: 1px solid #d4af37; margin-bottom: 15px;">
             <div style="font-size: 13px; margin-bottom: 8px;">Данс: <b>ХасБанк 5003793719</b></div>
+            <div style="font-size: 13px; margin-bottom: 8px;">Нэр: <b>Б.Энхсайхан</b></div>
             <div style="font-size: 13px; margin-bottom: 8px;">Дүн: <b id="pay-total-val" style="color:#d4af37;">0₮</b></div>
-            <div style="font-size: 13px; margin-bottom: 8px;">Гүйлгээний утга: <b id="pay-order-id" style="color:#25D366;">#UK-0000</b></div>
+            <div style="font-size: 15px;">Гүйлгээний утга: <b id="pay-order-id" style="color:#25D366; font-size: 18px;">#UK-0000</b></div>
         </div>
         
-        <p style="font-size: 11px; color: #ffcc00; margin-bottom: 15px;">⚠️ Гүйлгээний утга дээр дээрх захиалгын дугаарыг бичсэнээр таны захиалга шууд баталгаажна.</p>
+        <p style="font-size: 11px; color: #ffcc00; margin-bottom: 15px;">⚠️ Гүйлгээний утга дээр <b>Захиалгын дугаарыг</b> заавал бичнэ үү.</p>
         
         <img id="qr-img" src="" alt="QR" style="width: 140px; border-radius: 10px; border: 4px solid white; margin-bottom: 15px;">
         
-        <div style="font-size: 11px; color: #777; margin-bottom: 15px;">Асуух зүйл байвал: 8851-5700</div>
+        <button type="button" id="payment-sent-btn" onclick="notifyPaymentSent()" style="width: 100%; padding: 15px; background: #d4af37; color: #000; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 14px;">
+            ТӨЛБӨР ШИЛЖҮҮЛСЭН
+        </button>
         
-        <button type="button" class="close-btn" onclick="closeAll()">Ойлголоо</button>
+        <button type="button" onclick="closeAll()" style="margin-top: 15px; background: transparent; color: #777; border: none; cursor: pointer; text-decoration: underline; font-size: 12px;">Хаах</button>
     </div>
 </div>
 
