@@ -1,48 +1,105 @@
-const unitPrice = 150000; // Нэгж үнэ
-let quantity = 1;
+const unitPrice = 250000;
+const delFee = 15000;
+const sizes = [38, 39, 40, 41, 42, 43, 44];
 
-// Тоо ширхэг шинэчлэх функц
-function updateQty(change) {
-    const qtyInput = document.getElementById('qty');
-    quantity = parseInt(qtyInput.value) + change;
-    
-    if (quantity < 1) quantity = 1;
-    
-    qtyInput.value = quantity;
-    updateTotal();
-}
-
-// Нийт үнийг тооцоолж харуулах
-function updateTotal() {
-    const total = unitPrice * quantity;
-    const formattedTotal = total.toLocaleString() + '₮';
-    
-    document.getElementById('total-price').innerText = formattedTotal;
-    document.getElementById('modal-total').innerText = formattedTotal;
-}
-
-// Модал нээх
-function openModal() {
-    const name = document.getElementById('customer-name').value;
-    const phone = document.getElementById('customer-phone').value;
-    
-    if (!name || !phone) {
-        alert("Нэр болон утасны дугаараа оруулна уу.");
-        return;
+const langData = {
+    mn: {
+        aboutTitle: "Бидний тухай", navProducts: "Бүтээгдэхүүн", orderTitle: "Захиалга өгөх",
+        needDel: "Хүргэлт авах (+15,000₮)", btnReady: "ЗАХИАЛАХ", btnSending: "Илгээж байна...",
+        totalLabel: "НИЙТ ТӨЛӨХ", shoes: ["Сонгодог Лофер", "Уламжлалт Гутал", "Ажлын Ботинк", "Өдөр тутмын Оксфорд"]
+    },
+    en: {
+        aboutTitle: "About Us", navProducts: "Products", orderTitle: "Order Now",
+        needDel: "Delivery Service (+15,000₮)", btnReady: "CHECKOUT", btnSending: "Sending...",
+        totalLabel: "TOTAL AMOUNT", shoes: ["Classic Loafers", "Traditional Boots", "Work Boots", "Daily Oxfords"]
     }
-    
-    document.getElementById('payment-modal').style.display = 'flex';
+};
+
+let currentLang = 'mn';
+let cart = {};
+
+function setLang(lang) {
+    currentLang = lang;
+    const d = langData[lang];
+    document.getElementById('btn-mn').style.color = lang === 'mn' ? '#d4af37' : '#a0a0a0';
+    document.getElementById('btn-en').style.color = lang === 'en' ? '#d4af37' : '#a0a0a0';
+    document.getElementById('t-about-title').innerText = d.aboutTitle;
+    document.getElementById('t-nav-products').innerText = d.navProducts;
+    document.getElementById('t-products-title').innerText = d.navProducts;
+    document.getElementById('t-order-title').innerText = d.orderTitle;
+    document.getElementById('t-need-del').innerText = d.needDel;
+    document.getElementById('t-total-label').innerText = d.totalLabel;
+    document.getElementById('submit-btn').innerText = d.btnReady;
+    renderProducts();
+    calc();
 }
 
-// Модал хаах
-function closeModal() {
-    document.getElementById('payment-modal').style.display = 'none';
+function renderProducts() {
+    const list = document.getElementById('product-list');
+    list.innerHTML = langData[currentLang].shoes.map((name, i) => {
+        let sizeHtml = sizes.map(sz => {
+            const key = `${i}-${sz}`;
+            return `<div class="size-item"><span>${sz}</span><input type="number" min="0" placeholder="0" value="${cart[key] || ''}" oninput="updateCart('${key}', this.value)"></div>`;
+        }).join('');
+        return `<div class="product-card"><img class="product-img" src="https://picsum.photos/400/500?random=${i}"><div class="card-content"><h3>${name}</h3><span class="price-tag">${unitPrice.toLocaleString()} ₮</span><div class="size-grid">${sizeHtml}</div></div></div>`;
+    }).join('');
 }
 
-// Модалын гадна дарахад хаах
-window.onclick = function(event) {
-    const modal = document.getElementById('payment-modal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+function updateCart(key, val) {
+    const v = parseInt(val);
+    if (isNaN(v) || v <= 0) delete cart[key];
+    else cart[key] = v;
+    calc();
 }
+
+function calc() {
+    const isDel = document.getElementById('del-check').checked;
+    const name = document.getElementById('p-name').value.trim();
+    const phone = document.getElementById('p-phone').value.trim();
+    document.getElementById('address').style.display = isDel ? 'block' : 'none';
+    let totalQty = 0;
+    Object.values(cart).forEach(q => totalQty += q);
+    const totalAmount = (totalQty * unitPrice) + (isDel && totalQty > 0 ? delFee : 0);
+    document.getElementById('res-total').innerText = totalAmount.toLocaleString();
+    document.getElementById('submit-btn').disabled = !(totalQty > 0 && name && phone);
+    document.getElementById('pay-total-val').innerText = totalAmount.toLocaleString() + "₮";
+    document.getElementById('pay-phone-val').innerText = phone || "--";
+    const qrImg = document.getElementById('qr-img');
+    const qrData = `Bank:KhasBank|Acc:5003793719|Amount:${totalAmount}|Phone:${phone}`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+}
+
+// Захиалгыг Gmail рүү илгээх функц
+function sendOrder() {
+    const btn = document.getElementById('submit-btn');
+    const originalText = btn.innerText;
+    btn.innerText = langData[currentLang].btnSending;
+    btn.disabled = true;
+
+    let orderDetails = "";
+    Object.keys(cart).forEach(key => {
+        const [shoeIdx, size] = key.split('-');
+        orderDetails += `${langData[currentLang].shoes[shoeIdx]} (SZ: ${size}, ${cart[key]}ш); `;
+    });
+
+    const templateParams = {
+        from_name: document.getElementById('p-name').value,
+        phone: document.getElementById('p-phone').value,
+        order_details: orderDetails,
+        address: document.getElementById('address').value || "Байхгүй",
+        total_price: document.getElementById('res-total').innerText + "₮"
+    };
+
+    emailjs.send('service_izdours', 'template_ix01rik', templateParams)
+        .then(() => {
+            document.getElementById('paymentModal').style.display = 'flex';
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }, (err) => {
+            alert("Алдаа гарлаа: " + JSON.stringify(err));
+            btn.disabled = false;
+        });
+}
+
+function closeAll() { document.getElementById('paymentModal').style.display = 'none'; }
+window.onload = () => setLang('mn');
