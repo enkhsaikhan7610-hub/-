@@ -33,7 +33,7 @@
         .product-thumb { width: 65px; height: 65px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; opacity: 0.5; }
         .product-thumb.active { border-color: var(--gold); opacity: 1; border-width: 3px; }
 
-        /* PRODUCT INFO */
+        /* INFO SECTION */
         .info-section { padding: 20px; }
         .product-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; color: var(--gold); }
         .product-desc { font-size: 13px; color: #888; margin-bottom: 15px; }
@@ -55,16 +55,22 @@
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222; }
         .remove-btn { color: var(--red); background: none; border: 1px solid var(--red); padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
 
-        /* PAYMENT FORM & QR */
+        /* ORDER FORM & REFINED QR SECTION */
         .order-form { padding: 20px; background: #111; border-top: 1px solid #222; }
         .order-form input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; background: #222; border: 1px solid #333; color: #fff; box-sizing: border-box; }
         
-        .qr-box { background: #1a1a1a; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--gold); margin-bottom: 15px; }
-        .qr-img { width: 160px; height: 160px; margin: 10px 0; border: 1px solid #333; padding: 5px; background: #fff; border-radius: 10px; }
-        .bank-txt { font-size: 13px; color: #fff; margin: 4px 0; }
-        .copy-btn { font-size: 10px; color: var(--gold); cursor: pointer; text-decoration: underline; background: none; border: none; padding: 0; }
+        .qr-section { background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; text-align: center; }
+        .qr-title { color: var(--gold); font-size: 14px; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; }
+        .bank-details { margin-bottom: 15px; text-align: left; background: #000; padding: 12px; border-radius: 8px; border: 1px solid #222; }
+        .bank-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 13px; }
+        .bank-label { color: #888; }
+        .bank-value { color: #fff; font-weight: bold; font-family: monospace; }
+        .copy-link { color: var(--gold); font-size: 11px; text-decoration: underline; cursor: pointer; }
 
-        /* SUCCESS MODAL */
+        .qr-image-container { display: inline-block; background: #fff; padding: 8px; border-radius: 12px; margin: 10px 0; }
+        .qr-img { width: 150px; height: 150px; display: block; }
+        .qr-hint { font-size: 11px; color: #666; margin-top: 10px; line-height: 1.4; }
+
         .payment-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .modal-box { background: #111; padding: 40px 20px; border-radius: 20px; border: 1px solid var(--gold); max-width: 400px; width: 100%; }
     </style>
@@ -124,23 +130,41 @@
     <div id="cartItems" class="cart-content"></div>
 
     <div class="order-form">
-        <div class="qr-box">
-            <div class="bank-txt"><b>ХАС БАНК:</b> <span id="acc-num">5003793719</span></div>
-            <div class="bank-txt"><b>IBAN:</b> 91003200</div>
-            <button class="copy-btn" onclick="copyAccount()">Дансны дугаар хуулах</button>
+        <div class="qr-section">
+            <div class="qr-title">ТӨЛБӨР ШИЛЖҮҮЛЭХ</div>
             
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HasBank-5003793719-91003200" class="qr-img" alt="Payment QR">
+            <div class="bank-details">
+                <div class="bank-row">
+                    <span class="bank-label">Банк:</span>
+                    <span class="bank-value">ХАС БАНК</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Данс:</span>
+                    <span class="bank-value" id="acc-num">5003793719</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">IBAN:</span>
+                    <span class="bank-value">91003200</span>
+                </div>
+                <div style="text-align: right; margin-top: 5px;">
+                    <span class="copy-link" onclick="copyAccount()">Дансны дугаар хуулах</span>
+                </div>
+            </div>
             
-            <div style="font-size:11px; color:var(--gold); font-weight:bold; margin-top:5px;">Гүйлгээний утга: <br> ТАНЫ УТАСНЫ ДУГААР</div>
+            <div class="qr-image-container">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HasBank-5003793719-91003200" class="qr-img" alt="Payment QR">
+            </div>
+            
+            <div class="qr-hint">Гүйлгээний утга дээр өөрийн <br><b>УТАСНЫ ДУГААРЫГ</b> заавал бичнэ үү.</div>
         </div>
 
         <input type="text" id="p-name" placeholder="Таны нэр">
         <input type="tel" id="p-phone" placeholder="Утасны дугаар">
         <input type="email" id="p-email" placeholder="И-мэйл хаяг">
         
-        <div style="display:flex; justify-content:space-between; margin:10px 0;">
-            <span>Нийт төлөх:</span>
-            <span id="cart-total" style="color:var(--gold); font-weight:bold;">0₮</span>
+        <div style="display:flex; justify-content:space-between; margin:15px 0;">
+            <span style="color:#888;">Нийт төлөх:</span>
+            <span id="cart-total" style="color:var(--gold); font-weight:bold; font-size: 18px;">0₮</span>
         </div>
         <button id="sendBtn" class="add-to-cart-btn" style="background:var(--gold);" onclick="sendOrder()">ТӨЛБӨР ТӨЛСӨН / ИЛГЭЭХ</button>
     </div>
@@ -149,8 +173,8 @@
 <div id="paymentModal" class="payment-modal">
     <div class="modal-box">
         <div style="font-size:60px; color:var(--green); margin-bottom:20px;">✔</div>
-        <h2 style="color:var(--gold);">Баталгаажлаа!</h2>
-        <p style="color:#ccc; line-height:1.6;">Захиалга амжилттай илгээгдлээ.<br>Төлбөр шалгагдсаны дараа бид холбогдоно.</p>
+        <h2 style="color:var(--gold);">Амжилттай!</h2>
+        <p style="color:#ccc; line-height:1.6;">Захиалга илгээгдлээ. <br> Төлбөр шалгагдсаны дараа бид тантай холбогдох болно.</p>
         <button class="add-to-cart-btn" style="background:#fff; margin-top:20px;" onclick="closeModal()">ХААХ</button>
     </div>
 </div>
@@ -177,7 +201,6 @@ let currentIndex = 0;
 const wrapper = document.getElementById('slider-wrapper');
 const thumbList = document.getElementById('product-list');
 
-// Initialize Products
 products.forEach((p, idx) => {
     const slide = document.createElement('div'); slide.className = 'slider-item';
     slide.innerHTML = `<img src="${p.img}">`; wrapper.appendChild(slide);
@@ -201,7 +224,6 @@ function updateUI() {
     currentQty = 0; document.getElementById('main-qty-val').innerText = "0";
 }
 
-// SWIPE LOGIC
 let startX = 0;
 const slider = document.getElementById('slider');
 slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
@@ -215,7 +237,6 @@ slider.addEventListener('touchend', e => {
 
 goToSlide(0);
 
-// SELECTION FUNCTIONS
 function selectSize(btn) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active'); selectedSize = btn.innerText;
@@ -250,7 +271,6 @@ function updateCartUI() {
     document.getElementById('cart-total').innerText = total.toLocaleString() + "₮";
 }
 
-// UTILITIES
 function removeItem(id) { cart = cart.filter(i => i.cartId !== id); updateCartUI(); }
 function toggleCart() { const el = document.getElementById('cartOverlay'); el.style.display = el.style.display === 'flex' ? 'none' : 'flex'; }
 function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
@@ -260,7 +280,6 @@ function copyAccount() {
     navigator.clipboard.writeText(acc).then(() => alert("Дансны дугаар хуулагдлаа: " + acc));
 }
 
-// SEND ORDER
 function sendOrder() {
     const name = document.getElementById('p-name').value;
     const phone = document.getElementById('p-phone').value;
@@ -280,7 +299,7 @@ function sendOrder() {
         cart = []; updateCartUI(); toggleCart(); 
         btn.innerText = "ТӨЛБӨР ТӨЛСӨН / ИЛГЭЭХ"; btn.disabled = false;
     }).catch(() => {
-        alert("Илгээхэд алдаа гарлаа"); btn.disabled = false;
+        alert("Алдаа гарлаа"); btn.disabled = false;
     });
 }
 </script>
