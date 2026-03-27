@@ -18,8 +18,10 @@
         .nav-header { display: flex; justify-content: center; padding: 15px; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         .nav-logo { height: 35px; }
 
-        .main-img-holder { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #000; }
-        .main-img-holder img { width: 100%; height: 100%; object-fit: cover; }
+        /* Бичлэг оруулах хэсэг */
+        .main-img-holder { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #000; position: relative; }
+        .main-img-holder img, .main-img-holder video { width: 100%; height: 100%; object-fit: cover; }
+        
         .thumb-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
         .thumb-item { width: 70px; height: 70px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; object-fit: cover; opacity: 0.6; }
         .thumb-active { border-color: var(--gold); opacity: 1; }
@@ -63,16 +65,21 @@
 
 <div class="product-container">
     <div class="main-img-holder">
-        <img id="main-view" src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png">
+        <video id="main-video" autoplay muted loop playsinline>
+            <source src="8a8170ee-0295-4169-8b55-b41bb0f8d7ea.mp4" type="video/mp4">
+        </video>
+        <img id="main-view" src="" style="display: none;">
     </div>
+
     <div class="thumb-scroll">
-        <img class="thumb-item thumb-active" src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" onclick="changeImg(this)">
+        <div class="thumb-item thumb-active" onclick="showVideo()" style="background: #222; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 10px; font-weight: bold; text-align: center;">VIDEO</div>
+        <img class="thumb-item" src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" onclick="changeImg(this)">
         <img class="thumb-item" src="https://picsum.photos/600/600?random=1" onclick="changeImg(this)">
         <img class="thumb-item" src="https://picsum.photos/600/600?random=2" onclick="changeImg(this)">
     </div>
 
     <div class="info-section">
-        <h1 class="product-title">Бүтээгдэхүүн</h1>
+        <h1 class="product-title">Uran Khiits - Арьсан Гутал</h1>
         <div class="price-box">
             <span class="current-price">250,000₮</span>
             <span class="old-price">500,000₮</span>
@@ -144,8 +151,20 @@ let currentOrderID = "";
 const unitPrice = 250000;
 const delFee = 15000;
 
+// Видео харуулах функц
+function showVideo() {
+    document.getElementById('main-video').style.display = 'block';
+    document.getElementById('main-view').style.display = 'none';
+    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('thumb-active'));
+    event.currentTarget.classList.add('thumb-active');
+}
+
+// Зураг харуулах функц
 function changeImg(el) {
-    document.getElementById('main-view').src = el.src;
+    document.getElementById('main-video').style.display = 'none';
+    const mainImg = document.getElementById('main-view');
+    mainImg.style.display = 'block';
+    mainImg.src = el.src;
     document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('thumb-active'));
     el.classList.add('thumb-active');
 }
@@ -196,7 +215,7 @@ function sendOrder() {
         from_name: document.getElementById('p-name').value,
         phone: document.getElementById('p-phone').value,
         user_email: document.getElementById('p-email').value,
-        order_details: `Бөгж (Хэмжээ: ${selectedSize}, Тоо: ${quantity}ш) - ЗАХИАЛГА ҮҮССЭН`,
+        order_details: `Гутлын захиалга (Хэмжээ: ${selectedSize}, Тоо: ${quantity}ш) - ЗАХИАЛГА ҮҮССЭН`,
         address: document.getElementById('address').value || "Дэлгүүрээс авах",
         total_price: document.getElementById('res-total').innerText + "₮"
     };
@@ -211,7 +230,6 @@ function sendOrder() {
     });
 }
 
-// ТӨЛБӨР БАТАЛГААЖУУЛАХ ФУНКЦ
 function confirmPayment() {
     const btn = document.getElementById('confirm-pay-btn');
     btn.innerText = "Мэдэгдэж байна...";
@@ -222,7 +240,7 @@ function confirmPayment() {
         from_name: document.getElementById('p-name').value,
         phone: document.getElementById('p-phone').value,
         user_email: document.getElementById('p-email').value,
-        order_details: `ТӨЛБӨР ТӨЛӨГДӨВ: Бөгж (Хэмжээ: ${selectedSize}, Тоо: ${quantity}ш)`,
+        order_details: `ТӨЛБӨР ТӨЛӨГДӨВ: Гутал (Хэмжээ: ${selectedSize}, Тоо: ${quantity}ш)`,
         address: document.getElementById('address').value || "Дэлгүүрээс авах",
         total_price: document.getElementById('res-total').innerText + "₮"
     };
