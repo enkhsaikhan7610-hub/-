@@ -16,7 +16,6 @@
         :root { --gold: #d4af37; --bg: #000; --card: #111; --red: #ff4d4d; --green: #25D366; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding-bottom: 120px; }
         
-        /* Навбар хэсэгт БИЧЛЭГ ҮЗЭХ товчийг нэмсэн */
         .nav-header { 
             display: flex; 
             justify-content: space-between; 
@@ -37,34 +36,25 @@
             border-radius: 8px; 
             font-size: 11px; 
             font-weight: bold;
-            transition: 0.3s;
-        }
-        .video-link-btn:hover {
-            background: rgba(212, 175, 55, 0.1);
         }
 
-        .main-img-holder { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #000; position: relative; }
-        .main-img-holder img, .main-img-holder video { width: 100%; height: 100%; object-fit: cover; }
+        /* Зураг болон видеоны хэсгийг бүрмөсөн устгав */
+        .info-section { padding: 30px 20px 10px 20px; text-align: center; }
+        .product-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #fff; }
         
-        .thumb-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
-        .thumb-item { width: 70px; height: 70px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; object-fit: cover; opacity: 0.6; }
-        .thumb-active { border-color: var(--gold); opacity: 1; }
+        .price-box { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 20px 0; }
+        .current-price { font-size: 28px; font-weight: 800; color: var(--gold); }
+        .old-price { font-size: 18px; color: #777; text-decoration: line-through; }
 
-        .info-section { padding: 20px; }
-        .product-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
-        .price-box { display: flex; align-items: center; gap: 15px; margin: 15px 0; }
-        .current-price { font-size: 24px; font-weight: 800; color: var(--gold); }
-        .old-price { font-size: 16px; color: #777; text-decoration: line-through; }
-
-        .selection-box { background: #1a1a1a; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #333; }
-        .select-label { display: block; font-size: 12px; color: #777; margin-bottom: 8px; text-transform: uppercase; }
-        .size-options { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
-        .size-btn { background: #000; border: 1px solid #444; color: #fff; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+        .selection-box { background: #1a1a1a; padding: 20px; border-radius: 12px; margin: 15px 20px; border: 1px solid #333; }
+        .select-label { display: block; font-size: 12px; color: #777; margin-bottom: 12px; text-transform: uppercase; text-align: left; }
+        .size-options { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; justify-content: center; }
+        .size-btn { background: #000; border: 1px solid #444; color: #fff; padding: 12px 18px; border-radius: 8px; cursor: pointer; min-width: 50px; }
         .size-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
         
-        .qty-control { display: flex; align-items: center; gap: 20px; }
-        .qty-btn { background: #333; border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; font-size: 20px; cursor: pointer; }
-        #qty-val { font-size: 18px; font-weight: bold; }
+        .qty-control { display: flex; align-items: center; gap: 25px; justify-content: center; }
+        .qty-btn { background: #333; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 22px; cursor: pointer; }
+        #qty-val { font-size: 20px; font-weight: bold; }
 
         .order-card { background: var(--card); border-radius: 20px; padding: 25px; margin: 20px; border: 1px solid #222; }
         .order-card input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #1a1a1a; color: #fff; box-sizing: border-box; }
@@ -87,45 +77,32 @@
     <a href="videos.html" class="video-link-btn">БИЧЛЭГ ҮЗЭХ</a>
 </nav>
 
-<div class="main-img-holder">
-    <img id="main-view" src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" style="display: block;">
-    
-    <video id="main-video" style="display: none;" muted loop playsinline>
-        <source src="8a8170ee-0295-4169-8b55-b41bb0f8d7ea.mp4" type="video/mp4">
-    </video>
-</div>
-
-    <div class="thumb-scroll">
-        <div class="thumb-item thumb-active" onclick="showVideo()" style="background: #222; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 10px; font-weight: bold; text-align: center;">VIDEO</div>
-        <img class="thumb-item" src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" onclick="changeImg(this)">
-        <img class="thumb-item" src="https://picsum.photos/600/600?random=1" onclick="changeImg(this)">
-        <img class="thumb-item" src="https://picsum.photos/600/600?random=2" onclick="changeImg(this)">
-    </div>
-
+<div class="product-container">
     <div class="info-section">
         <h1 class="product-title">Uran Khiits - Арьсан Гутал</h1>
         <div class="price-box">
             <span class="current-price">250,000₮</span>
             <span class="old-price">500,000₮</span>
         </div>
+    </div>
 
-        <div class="selection-box">
-            <label class="select-label">Хэмжээ сонгох (Size)</label>
-            <div class="size-options">
-                <button class="size-btn" onclick="setSize(this)">36</button>
-                <button class="size-btn" onclick="setSize(this)">37</button>
-                <button class="size-btn" onclick="setSize(this)">38</button>
-                <button class="size-btn" onclick="setSize(this)">39</button>
-                <button class="size-btn" onclick="setSize(this)">40</button>
-                <button class="size-btn" onclick="setSize(this)">41</button>
-                <button class="size-btn" onclick="setSize(this)">42</button>
-            </div>
-            <label class="select-label">Тоо ширхэг (Quantity)</label>
-            <div class="qty-control">
-                <button class="qty-btn" onclick="updateQty(-1)">-</button>
-                <span id="qty-val">1</span>
-                <button class="qty-btn" onclick="updateQty(1)">+</button>
-            </div>
+    <div class="selection-box">
+        <label class="select-label">Хэмжээ сонгох (Size)</label>
+        <div class="size-options">
+            <button class="size-btn" onclick="setSize(this)">36</button>
+            <button class="size-btn" onclick="setSize(this)">37</button>
+            <button class="size-btn" onclick="setSize(this)">38</button>
+            <button class="size-btn" onclick="setSize(this)">39</button>
+            <button class="size-btn" onclick="setSize(this)">40</button>
+            <button class="size-btn" onclick="setSize(this)">41</button>
+            <button class="size-btn" onclick="setSize(this)">42</button>
+        </div>
+        
+        <label class="select-label">Тоо ширхэг (Quantity)</label>
+        <div class="qty-control">
+            <button class="qty-btn" onclick="updateQty(-1)">-</button>
+            <span id="qty-val">1</span>
+            <button class="qty-btn" onclick="updateQty(1)">+</button>
         </div>
     </div>
 
@@ -174,22 +151,6 @@ let quantity = 1;
 let currentOrderID = "";
 const unitPrice = 250000;
 const delFee = 15000;
-
-function showVideo() {
-    document.getElementById('main-video').style.display = 'block';
-    document.getElementById('main-view').style.display = 'none';
-    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('thumb-active'));
-    event.currentTarget.classList.add('thumb-active');
-}
-
-function changeImg(el) {
-    document.getElementById('main-video').style.display = 'none';
-    const mainImg = document.getElementById('main-view');
-    mainImg.style.display = 'block';
-    mainImg.src = el.src;
-    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('thumb-active'));
-    el.classList.add('thumb-active');
-}
 
 function setSize(btn) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
