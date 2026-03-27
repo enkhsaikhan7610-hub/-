@@ -16,27 +16,30 @@
         :root { --gold: #d4af37; --bg: #000; --card: #111; --red: #ff4d4d; --green: #2ecc71; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding-bottom: 120px; overflow-x: hidden; }
         
+        /* HEADER */
         .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         .nav-logo { height: 35px; }
         .cart-icon-btn { position: relative; background: none; border: none; cursor: pointer; padding: 5px; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
 
-        /* СВАЙП ХЭСЭГ */
+        /* SLIDER & SWIPE */
         .slider-container { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; touch-action: pan-y; }
         .slider-wrapper { display: flex; transition: transform 0.4s ease-out; width: 100%; height: 100%; }
         .slider-item { min-width: 100%; height: 100%; }
         .slider-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ЖИЖИГ ЗУРГУУД */
+        /* THUMBNAILS */
         .product-list-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: #0a0a0a; border-bottom: 1px solid #222; scrollbar-width: none; }
         .product-thumb { width: 65px; height: 65px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; opacity: 0.5; }
         .product-thumb.active { border-color: var(--gold); opacity: 1; border-width: 3px; }
 
+        /* PRODUCT INFO */
         .info-section { padding: 20px; }
         .product-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; color: var(--gold); }
         .product-desc { font-size: 13px; color: #888; margin-bottom: 15px; }
         .current-price { font-size: 22px; font-weight: 800; }
 
+        /* SELECTION BOX */
         .selection-box { background: #151515; padding: 18px; border-radius: 12px; margin: 15px 0; border: 1px solid #222; }
         .size-options { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 15px 0; }
         .size-btn { background: #000; border: 1px solid #333; color: #fff; padding: 10px 12px; border-radius: 6px; cursor: pointer; min-width: 42px; font-size: 13px;}
@@ -46,21 +49,22 @@
         .qty-btn-main { background: #222; border: none; color: #fff; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 18px; }
         .add-to-cart-btn { width: 100%; background: #fff; color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        /* САГС БА ТӨЛБӨР */
+        /* CART OVERLAY */
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; }
         .cart-content { padding: 20px; flex: 1; overflow-y: auto; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222; }
-        .remove-btn { color: var(--red); background: none; border: 1px solid var(--red); padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+        .remove-btn { color: var(--red); background: none; border: 1px solid var(--red); padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
 
+        /* PAYMENT FORM & QR */
         .order-form { padding: 20px; background: #111; border-top: 1px solid #222; }
         .order-form input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; background: #222; border: 1px solid #333; color: #fff; box-sizing: border-box; }
         
-        /* QR ХЭСЭГ */
         .qr-box { background: #1a1a1a; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--gold); margin-bottom: 15px; }
-        .qr-img { width: 140px; height: 140px; margin: 10px 0; border-radius: 10px; }
-        .bank-txt { font-size: 12px; color: #aaa; margin: 2px 0; }
+        .qr-img { width: 160px; height: 160px; margin: 10px 0; border: 1px solid #333; padding: 5px; background: #fff; border-radius: 10px; }
+        .bank-txt { font-size: 13px; color: #fff; margin: 4px 0; }
+        .copy-btn { font-size: 10px; color: var(--gold); cursor: pointer; text-decoration: underline; background: none; border: none; padding: 0; }
 
-        /* МОДАЛ ЦОНХ */
+        /* SUCCESS MODAL */
         .payment-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .modal-box { background: #111; padding: 40px 20px; border-radius: 20px; border: 1px solid var(--gold); max-width: 400px; width: 100%; }
     </style>
@@ -121,10 +125,13 @@
 
     <div class="order-form">
         <div class="qr-box">
-            <div class="bank-txt"><b>ХААН БАНК:</b> 5000XXXXXX</div>
-            <div class="bank-txt"><b>НЭР:</b> Г. БАТ-ЭРДЭНЭ</div>
-            <img src="https://i.postimg.cc/your-qr-code.png" class="qr-img" alt="QR Code">
-            <div style="font-size:10px; color:var(--gold);">Гүйлгээний утга дээр утасны дугаараа бичнэ үү.</div>
+            <div class="bank-txt"><b>ХАС БАНК:</b> <span id="acc-num">5003793719</span></div>
+            <div class="bank-txt"><b>IBAN:</b> 91003200</div>
+            <button class="copy-btn" onclick="copyAccount()">Дансны дугаар хуулах</button>
+            
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HasBank-5003793719-91003200" class="qr-img" alt="Payment QR">
+            
+            <div style="font-size:11px; color:var(--gold); font-weight:bold; margin-top:5px;">Гүйлгээний утга: <br> ТАНЫ УТАСНЫ ДУГААР</div>
         </div>
 
         <input type="text" id="p-name" placeholder="Таны нэр">
@@ -135,7 +142,7 @@
             <span>Нийт төлөх:</span>
             <span id="cart-total" style="color:var(--gold); font-weight:bold;">0₮</span>
         </div>
-        <button id="sendBtn" class="add-to-cart-btn" style="background:var(--gold);" onclick="sendOrder()">ТӨЛБӨР ТӨЛСӨН / БАТАЛГААЖУУЛАХ</button>
+        <button id="sendBtn" class="add-to-cart-btn" style="background:var(--gold);" onclick="sendOrder()">ТӨЛБӨР ТӨЛСӨН / ИЛГЭЭХ</button>
     </div>
 </div>
 
@@ -170,6 +177,7 @@ let currentIndex = 0;
 const wrapper = document.getElementById('slider-wrapper');
 const thumbList = document.getElementById('product-list');
 
+// Initialize Products
 products.forEach((p, idx) => {
     const slide = document.createElement('div'); slide.className = 'slider-item';
     slide.innerHTML = `<img src="${p.img}">`; wrapper.appendChild(slide);
@@ -193,6 +201,7 @@ function updateUI() {
     currentQty = 0; document.getElementById('main-qty-val').innerText = "0";
 }
 
+// SWIPE LOGIC
 let startX = 0;
 const slider = document.getElementById('slider');
 slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
@@ -206,6 +215,7 @@ slider.addEventListener('touchend', e => {
 
 goToSlide(0);
 
+// SELECTION FUNCTIONS
 function selectSize(btn) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active'); selectedSize = btn.innerText;
@@ -217,7 +227,7 @@ function updateMainQty(val) {
 }
 
 function addToCart() {
-    if(!selectedSize || currentQty === 0) return alert("Сонгоно уу");
+    if(!selectedSize || currentQty === 0) return alert("Хэмжээ болон тоог сонгоно уу");
     const p = products[currentIndex];
     const cartId = `${p.id}-${selectedSize}`;
     const idx = cart.findIndex(i => i.cartId === cartId);
@@ -240,9 +250,17 @@ function updateCartUI() {
     document.getElementById('cart-total').innerText = total.toLocaleString() + "₮";
 }
 
+// UTILITIES
 function removeItem(id) { cart = cart.filter(i => i.cartId !== id); updateCartUI(); }
 function toggleCart() { const el = document.getElementById('cartOverlay'); el.style.display = el.style.display === 'flex' ? 'none' : 'flex'; }
+function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
 
+function copyAccount() {
+    const acc = document.getElementById('acc-num').innerText;
+    navigator.clipboard.writeText(acc).then(() => alert("Дансны дугаар хуулагдлаа: " + acc));
+}
+
+// SEND ORDER
 function sendOrder() {
     const name = document.getElementById('p-name').value;
     const phone = document.getElementById('p-phone').value;
@@ -260,13 +278,11 @@ function sendOrder() {
     }).then(() => { 
         document.getElementById('paymentModal').style.display = 'flex';
         cart = []; updateCartUI(); toggleCart(); 
-        btn.innerText = "ТӨЛБӨР ТӨЛСӨН / БАТАЛГААЖУУЛАХ"; btn.disabled = false;
+        btn.innerText = "ТӨЛБӨР ТӨЛСӨН / ИЛГЭЭХ"; btn.disabled = false;
     }).catch(() => {
-        alert("Алдаа гарлаа"); btn.disabled = false;
+        alert("Илгээхэд алдаа гарлаа"); btn.disabled = false;
     });
 }
-
-function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
 </script>
 </body>
 </html>
