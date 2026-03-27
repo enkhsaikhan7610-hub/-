@@ -13,37 +13,21 @@
     </script>
 
     <style>
-        :root { --gold: #d4af37; --bg: #000; --card: #111; --red: #ff4d4d; }
+        :root { --gold: #d4af37; --bg: #000; --card: #111; --red: #ff4d4d; --green: #2ecc71; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding-bottom: 120px; overflow-x: hidden; }
         
-        .nav-header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 20px; background: #111; border-bottom: 1px solid #222; 
-            position: sticky; top: 0; z-index: 100; 
-        }
+        .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         .nav-logo { height: 35px; }
-        
         .cart-icon-btn { position: relative; background: none; border: none; cursor: pointer; padding: 5px; }
-        .cart-count { 
-            position: absolute; top: -5px; right: -5px; background: var(--red); 
-            color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold;
-        }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
 
-        /* ТОМ ЗУРАГ СВАЙП ХИЙХ ХЭСЭГ */
         .slider-container { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; touch-action: pan-y; }
         .slider-wrapper { display: flex; transition: transform 0.4s ease-out; width: 100%; height: 100%; }
         .slider-item { min-width: 100%; height: 100%; }
         .slider-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ЖИЖИГ ЗУРГУУД */
-        .product-list-scroll { 
-            display: flex; gap: 10px; overflow-x: auto; padding: 15px; 
-            background: #0a0a0a; border-bottom: 1px solid #222; scrollbar-width: none;
-        }
-        .product-thumb { 
-            width: 65px; height: 65px; border-radius: 8px; flex-shrink: 0; 
-            cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; opacity: 0.5;
-        }
+        .product-list-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: #0a0a0a; border-bottom: 1px solid #222; scrollbar-width: none; }
+        .product-thumb { width: 65px; height: 65px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; opacity: 0.5; }
         .product-thumb.active { border-color: var(--gold); opacity: 1; border-width: 3px; }
 
         .info-section { padding: 20px; }
@@ -58,17 +42,20 @@
 
         .qty-control-main { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; background: #000; padding: 8px 12px; border-radius: 8px; width: fit-content; border: 1px solid #222; }
         .qty-btn-main { background: #222; border: none; color: #fff; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 18px; }
-        
         .add-to-cart-btn { width: 100%; background: #fff; color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        /* САГСНЫ ЦОНХ */
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; }
         .cart-content { padding: 20px; flex: 1; overflow-y: auto; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222; }
-        .remove-btn { color: var(--red); background: none; border: 1px solid var(--red); padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+        .remove-btn { color: var(--red); background: none; border: 1px solid var(--red); padding: 4px 8px; border-radius: 4px; font-size: 12px; }
 
         .order-form { padding: 20px; background: #111; border-top: 1px solid #222; }
         .order-form input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; background: #222; border: 1px solid #333; color: #fff; box-sizing: border-box; }
+
+        /* ТӨЛБӨР ТӨЛӨГДЛӨӨ ЦОНХ */
+        .payment-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; text-align: center; padding: 20px; box-sizing: border-box; }
+        .modal-box { background: #111; padding: 40px 20px; border-radius: 20px; border: 1px solid var(--gold); max-width: 400px; width: 100%; }
+        .success-icon { font-size: 60px; color: var(--green); margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -126,10 +113,20 @@
     <div class="order-form">
         <input type="text" id="p-name" placeholder="Таны нэр">
         <input type="tel" id="p-phone" placeholder="Утасны дугаар">
-        <input type="email" id="p-email" placeholder="Таны И-мэйл хаяг"> <div style="display:flex; justify-content:space-between; margin:10px 0;">
+        <input type="email" id="p-email" placeholder="И-мэйл хаяг">
+        <div style="display:flex; justify-content:space-between; margin:10px 0;">
             <span>Нийт:</span><span id="cart-total" style="color:var(--gold); font-weight:bold;">0₮</span>
         </div>
         <button class="add-to-cart-btn" style="background:var(--gold);" onclick="sendOrder()">ЗАХИАЛГА ИЛГЭЭХ</button>
+    </div>
+</div>
+
+<div id="paymentModal" class="payment-modal">
+    <div class="modal-box">
+        <div class="success-icon">✔</div>
+        <h2 style="color:var(--gold);">Амжилттай!</h2>
+        <p style="color:#ccc; line-height:1.6;">Захиалга илгээгдлээ.<br>Бид тантай удахгүй холбогдох болно.</p>
+        <button class="add-to-cart-btn" style="background:#fff; margin-top:20px;" onclick="closeModal()">ХААХ</button>
     </div>
 </div>
 
@@ -217,7 +214,7 @@ function addToCart() {
     const idx = cart.findIndex(i => i.cartId === cartId);
     if(idx > -1) cart[idx].qty += currentQty;
     else cart.push({ cartId, name: p.name, size: selectedSize, price: p.price, qty: currentQty });
-    updateCartUI(); alert("Сагсанд нэмэгдлээ");
+    updateCartUI(); alert("Нэмэгдлээ");
 }
 
 function updateCartUI() {
@@ -240,20 +237,22 @@ function toggleCart() { const el = document.getElementById('cartOverlay'); el.st
 function sendOrder() {
     const name = document.getElementById('p-name').value;
     const phone = document.getElementById('p-phone').value;
-    const email = document.getElementById('p-email').value; // И-МЭЙЛ АВАХ
+    const email = document.getElementById('p-email').value;
 
     if(!name || !phone || !email || cart.length === 0) return alert("Мэдээллээ гүйцэд оруулна уу");
     
     emailjs.send('service_izdours', 'template_ix01rik', {
-        from_name: name, 
-        phone: phone, 
-        user_email: email, // EmailJS template-дээ user_email гэж ашиглана
+        from_name: name, phone: phone, user_email: email,
         order_details: cart.map(i => `${i.name} (${i.size}-${i.qty}ш)`).join(", "),
         total_price: document.getElementById('cart-total').innerText
     }).then(() => { 
-        alert("Захиалга илгээгдлээ. Бид тантай холбогдох болно."); 
+        document.getElementById('paymentModal').style.display = 'flex'; // ЦОНХЫГ ГАРГАЖ ИРЭХ
         cart = []; updateCartUI(); toggleCart(); 
     });
+}
+
+function closeModal() {
+    document.getElementById('paymentModal').style.display = 'none';
 }
 </script>
 </body>
