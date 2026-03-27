@@ -15,10 +15,34 @@
     <style>
         :root { --gold: #d4af37; --bg: #000; --card: #111; --red: #ff4d4d; --green: #25D366; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding-bottom: 120px; }
-        .nav-header { display: flex; justify-content: center; padding: 15px; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+        
+        /* Навбар хэсэгт БИЧЛЭГ ҮЗЭХ товчийг нэмсэн */
+        .nav-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 20px; 
+            background: #111; 
+            border-bottom: 1px solid #222; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
         .nav-logo { height: 35px; }
+        .video-link-btn { 
+            color: var(--gold); 
+            text-decoration: none; 
+            border: 1px solid var(--gold); 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            font-size: 11px; 
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .video-link-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
 
-        /* Бичлэг оруулах хэсэг */
         .main-img-holder { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #000; position: relative; }
         .main-img-holder img, .main-img-holder video { width: 100%; height: 100%; object-fit: cover; }
         
@@ -49,7 +73,6 @@
         .checkout-btn { background: var(--gold); color: #000; border: none; padding: 15px 40px; border-radius: 15px; font-weight: bold; cursor: pointer; width: 60%; }
         .checkout-btn:disabled { background: #333; color: #777; opacity: 0.5; }
 
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { background: #111; padding: 30px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--gold); }
         .payment-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
@@ -61,6 +84,7 @@
 
 <nav class="nav-header">
     <img src="https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png" class="nav-logo">
+    <a href="videos.html" class="video-link-btn">БИЧЛЭГ ҮЗЭХ</a>
 </nav>
 
 <div class="product-container">
@@ -151,7 +175,6 @@ let currentOrderID = "";
 const unitPrice = 250000;
 const delFee = 15000;
 
-// Видео харуулах функц
 function showVideo() {
     document.getElementById('main-video').style.display = 'block';
     document.getElementById('main-view').style.display = 'none';
@@ -159,7 +182,6 @@ function showVideo() {
     event.currentTarget.classList.add('thumb-active');
 }
 
-// Зураг харуулах функц
 function changeImg(el) {
     document.getElementById('main-video').style.display = 'none';
     const mainImg = document.getElementById('main-view');
