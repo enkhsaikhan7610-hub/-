@@ -30,32 +30,37 @@
         /* SECTION TITLE */
         .section-title { font-size: 14px; color: #666; padding: 15px 20px 5px 20px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* SLIDER & SWIPE */
-        .slider-container { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; touch-action: pan-y; background: #0a0a0a; }
-        .slider-wrapper { display: flex; transition: transform 0.4s ease-out; width: 100%; height: 100%; }
-        .slider-item { min-width: 100%; height: 100%; }
-        .slider-item img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* IMAGE DOTS INDICATOR */
-        .slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
-        .dot { width: 8px; height: 8px; background: #333; border-radius: 50%; transition: 0.2s; }
-        .dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
+        /* MAIN IMAGE MAIN BOX */
+        .main-image-container { width: 100%; aspect-ratio: 1/1; background: #0a0a0a; position: relative; }
+        .main-image-container img { width: 100%; height: 100%; object-fit: contain; }
 
         /* THUMBNAILS */
         .product-list-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: #0a0a0a; border-bottom: 1px solid #222; scrollbar-width: none; }
-        .product-thumb { width: 65px; height: 65px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; opacity: 0.5; }
+        .product-thumb { width: 65px; height: 65px; border-radius: 8px; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; opacity: 0.5; background: #111; }
         .product-thumb.active { border-color: var(--gold); opacity: 1; border-width: 3px; }
 
         /* INFO SECTION */
         .info-section { padding: 20px; }
         .product-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; color: var(--gold); }
-        .product-desc { font-size: 13px; color: #888; margin-bottom: 15px; }
-        .current-price { font-size: 22px; font-weight: 800; }
+        .product-desc { font-size: 13px; color: #888; margin-bottom: 15px; line-height: 1.4; }
+        .current-price { font-size: 22px; font-weight: 800; color: #fff; }
 
         /* SELECTION BOX */
         .selection-box { background: #151515; padding: 18px; border-radius: 12px; margin: 15px 0; border: 1px solid #222; }
-        .size-options { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 15px 0; }
-        .size-btn { background: #000; border: 1px solid #333; color: #fff; padding: 10px 12px; border-radius: 6px; cursor: pointer; min-width: 42px; font-size: 13px;}
+        .selection-title-sub { font-size: 11px; color: #666; display: block; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px; }
+        
+        /* STYLE CHIPS (ЗАГВАР СОНГОЛТ) */
+        .style-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .style-btn { background: #000; border: 1px solid #333; color: #fff; padding: 12px 15px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 13px; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .style-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.08); font-weight: bold; }
+        .style-btn .style-price { color: #888; font-size: 12px; font-weight: normal; margin-right: 10px; }
+        .style-btn.active .style-price { color: var(--gold); font-weight: bold; }
+        .style-btn::after { content: '○'; font-size: 14px; color: #444; margin-left: 5px; }
+        .style-btn.active::after { content: '●'; color: var(--gold); }
+
+        /* SIZE BUTTONS */
+        .size-options { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 15px; }
+        .size-btn { background: #000; border: 1px solid #333; color: #fff; padding: 10px 12px; border-radius: 6px; cursor: pointer; min-width: 42px; font-size: 13px; transition: 0.2s; }
         .size-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
 
         .qty-control-main { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; background: #000; padding: 8px 12px; border-radius: 8px; width: fit-content; border: 1px solid #222; }
@@ -107,10 +112,9 @@
 
 <div class="section-title">Бүтээгдэхүүнүүд</div>
 
-<div class="slider-container" id="slider">
-    <div class="slider-wrapper" id="slider-wrapper"></div>
+<div class="main-image-container">
+    <img id="main-product-img" src="" alt="Бүтээгдэхүүн">
 </div>
-<div class="slider-dots" id="slider-dots"></div>
 
 <div class="product-list-scroll" id="product-list"></div>
 
@@ -122,7 +126,12 @@
     </div>
 
     <div class="selection-box">
-        <span style="font-size:11px; color:#666;">ХЭМЖЭЭ СОНГОХ:</span>
+        <div id="style-selection-wrapper" style="display: none;">
+            <span class="selection-title-sub">ЗАГВАР СОНГОХ:</span>
+            <div class="style-options" id="style-options-container"></div>
+        </div>
+
+        <span class="selection-title-sub">ХЭМЖЭЭ СОНГОХ:</span>
         <div class="size-options">
             <button class="size-btn" onclick="selectSize(this)">38</button>
             <button class="size-btn" onclick="selectSize(this)">39</button>
@@ -131,7 +140,7 @@
             <button class="size-btn" onclick="selectSize(this)">42</button>
         </div>
 
-        <span style="font-size:11px; color:#666;">ШИРХЭГ:</span>
+        <span class="selection-title-sub">ШИРХЭГ:</span>
         <div class="qty-control-main">
             <button class="qty-btn-main" onclick="updateMainQty(-1)">−</button>
             <span id="main-qty-val">0</span>
@@ -201,108 +210,103 @@
 </div>
 
 <script>
-// Эхний гутлыг дотроо 2 зурагтай (images массивтай) нэг бүтээгдэхүүн болголоо
+// Шинэчилсэн бүтээгдэхүүний дата (Загвар бүрт өөр өөр үнэ тохируулсан)
 const products = [
     { 
         id: 1, 
         name: "Уран | Морин Циркийн Гутал", 
-        desc: "Дээд зэргийн чанартай арьсаар хийсэн, гар урлалын урт түрийтэй мэргэжлийн морин циркийн гутал.", 
-        price: 250000, 
-        images: ["gutal1.png", "gutal2.png"] // Хажуу болон урд харагдацын зургууд
+        desc: "Дээд зэргийн чанартай арьсаар хийсэн, гар урлалын мэргэжлийн морин циркийн гутал.", 
+        hasVariants: true,
+        variants: [
+            { name: "Хажуу цахилгаантай загвар", img: "gutal-side.png", price: 160000 },
+            { name: "Толгой хэсэгт нэмэлт арьстай", img: "gutal-head.png", price: 180000 },
+            { name: "Ардаа цахилгаантай загвар", img: "gutal-back.png", price: 200000 }
+        ]
     },
-    { id: 2, name: "Uran Oxford Elite", desc: "Premium office wear", price: 270000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+3"] },
-    { id: 3, name: "Uran Loafer Pro", desc: "Comfortable daily loafer", price: 240000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+4"] },
-    { id: 4, name: "Uran Chelsea Black", desc: "Sleek fall style boots", price: 320000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+5"] },
-    { id: 5, name: "Uran Urban Soft", desc: "Soft skin leather shoes", price: 230000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+6"] },
-    { id: 6, name: "Uran Monk Strap", desc: "Double strap luxury", price: 290000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+7"] },
-    { id: 7, name: "Uran Formal Blue", desc: "Unique blue leather", price: 280000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+8"] },
-    { id: 8, name: "Uran Casual Grey", desc: "Lightweight leather sneakers", price: 220000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+9"] },
-    { id: 9, name: "Uran Masterpiece", desc: "Limited edition artisan", price: 450000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+10"] }
+    { 
+        id: 2, 
+        name: "Уран | Сонгодог Савхин Урт Гутал", 
+        desc: "Хөлд маш эвтэйхэн, тансаг загварын гар урлалын дээд зэргийн урт түрийтэй савхин гутал.", 
+        price: 280000, 
+        hasVariants: false,
+        img: "gutal2_main.png"
+    },
+    { id: 3, name: "Uran Oxford Elite", desc: "Premium office wear", price: 270000, hasVariants: false, img: "https://api.dicebear.com/7.x/initials/svg?seed=G3&backgroundColor=111111" },
+    { id: 4, name: "Uran Loafer Pro", desc: "Comfortable daily loafer", price: 240000, hasVariants: false, img: "https://api.dicebear.com/7.x/initials/svg?seed=G4&backgroundColor=111111" },
+    { id: 5, name: "Uran Chelsea Black", desc: "Sleek fall style boots", price: 320000, hasVariants: false, img: "https://api.dicebear.com/7.x/initials/svg?seed=G5&backgroundColor=111111" }
 ];
 
 let cart = [];
 let selectedSize = "";
+let selectedVariant = null; // Сонгосон загварын объект
 let currentQty = 0;
-let productIndex = 0; // Сонгогдсон бүтээгдэхүүний индекс
-let imageIndex = 0;   // Тухайн бүтээгдэхүүний доторх идэвхтэй зургийн индекс
+let productIndex = 0;
 
 const thumbList = document.getElementById('product-list');
-const wrapper = document.getElementById('slider-wrapper');
-const dotsContainer = document.getElementById('slider-dots');
+const mainImg = document.getElementById('main-product-img');
+const styleSection = document.getElementById('style-selection-wrapper');
+const styleContainer = document.getElementById('style-options-container');
 
-// Доод талын бүтээгдэхүүний жагсаалтыг үүсгэх (Эхний зургийг нь ковер болгоно)
+// Жагсаалт үүсгэх
 products.forEach((p, idx) => {
     const thumb = document.createElement('img'); 
-    thumb.src = p.images[0];
+    thumb.src = p.hasVariants ? p.variants[0].img : p.img;
     thumb.className = 'product-thumb'; 
     thumb.onclick = () => selectProduct(idx);
     thumbList.appendChild(thumb);
 });
 
-// Бүтээгдэхүүн сонгох үед слайдер болон мэдээллийг шинэчлэх функц
+// Бүтээгдэхүүн солих функц
 function selectProduct(index) {
     productIndex = index;
-    imageIndex = 0; // Зургийн байрлалыг эхнийх дээр авчирна
-    
     const p = products[productIndex];
     
-    // Слайдер дотор зургуудыг бэлдэх
-    wrapper.innerHTML = "";
-    p.images.forEach(imgUrl => {
-        const slide = document.createElement('div');
-        slide.className = 'slider-item';
-        slide.innerHTML = `<img src="${imgUrl}">`;
-        wrapper.appendChild(slide);
-    });
-
-    // Цэгнүүдийг (Dots) бэлдэх
-    dotsContainer.innerHTML = "";
-    p.images.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'dot';
-        dotsContainer.appendChild(dot);
-    });
-
-    updateSliderPosition();
-    
-    // Текст мэдээллийг солих
     document.getElementById('display-title').innerText = p.name;
     document.getElementById('display-desc').innerText = p.desc;
-    document.getElementById('display-price').innerText = p.price.toLocaleString() + "₮";
     
-    // Доод талын жижиг зургуудын идэвхтэйг тэмдэглэх
+    if(p.hasVariants) {
+        styleSection.style.display = 'block';
+        styleContainer.innerHTML = "";
+        
+        p.variants.forEach((v, vIdx) => {
+            const btn = document.createElement('button');
+            btn.className = `style-btn ${vIdx === 0 ? 'active' : ''}`;
+            btn.innerHTML = `<span>${v.name}</span><span class="style-price">${v.price.toLocaleString()}₮</span>`;
+            btn.onclick = () => changeVariant(vIdx, btn);
+            styleContainer.appendChild(btn);
+        });
+        
+        mainImg.src = p.variants[0].img;
+        selectedVariant = p.variants[0];
+        document.getElementById('display-price').innerText = p.variants[0].price.toLocaleString() + "₮";
+    } else {
+        styleSection.style.display = 'none';
+        mainImg.src = p.img;
+        selectedVariant = null;
+        document.getElementById('display-price').innerText = p.price.toLocaleString() + "₮";
+    }
+    
     document.querySelectorAll('.product-thumb').forEach((t, i) => t.classList.toggle('active', i === productIndex));
     
-    currentQty = 0; 
+    // Сонголтуудыг шинэчлэх
+    currentQty = 0;
     document.getElementById('main-qty-val').innerText = "0";
 }
 
-// Слайдер шилжүүлэх функц
-function updateSliderPosition() {
-    wrapper.style.transform = `translateX(-${imageIndex * 100}%)`;
-    // Цэгнүүдийн идэвхтэйг солих
-    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === imageIndex));
+// Загвар дарахад зураг болон үнэ солих
+function changeVariant(vIdx, btnElement) {
+    const p = products[productIndex];
+    const v = p.variants[vIdx];
+    
+    mainImg.src = v.img;
+    selectedVariant = v;
+    document.getElementById('display-price').innerText = v.price.toLocaleString() + "₮";
+    
+    document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
 }
 
-// Хэрэглэгч зургийг хажуу тийш шудрах (Swipe) үед зургуудыг солих
-let startX = 0;
-const slider = document.getElementById('slider');
-slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-slider.addEventListener('touchend', e => {
-    const p = products[productIndex];
-    let diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-        if (diff > 0 && imageIndex < p.images.length - 1) {
-            imageIndex++;
-            updateSliderPosition();
-        } else if (diff < 0 && imageIndex > 0) {
-            imageIndex--;
-            updateSliderPosition();
-        }
-    }
-});
-
-// Эхний гутлыг нээж харуулах
+// Эхний бүтээгдэхүүнийг харуулах
 selectProduct(0);
 
 function selectSize(btn) {
@@ -318,10 +322,24 @@ function updateMainQty(val) {
 function addToCart() {
     if(!selectedSize || currentQty === 0) return alert("Хэмжээ болон тоог сонгоно уу");
     const p = products[productIndex];
-    const cartId = `${p.id}-${selectedSize}`;
+    
+    let finalName = p.name;
+    let finalPrice = p.price;
+    let cartId = `${p.id}-${selectedSize}`;
+    
+    if(p.hasVariants && selectedVariant) {
+        finalName = `${p.name} (${selectedVariant.name})`;
+        finalPrice = selectedVariant.price;
+        cartId = `${p.id}-${selectedVariant.name}-${selectedSize}`;
+    }
+    
     const idx = cart.findIndex(i => i.cartId === cartId);
-    if(idx > -1) cart[idx].qty += currentQty;
-    else cart.push({ cartId, name: p.name, size: selectedSize, price: p.price, qty: currentQty });
+    if(idx > -1) {
+        cart[idx].qty += currentQty;
+    } else {
+        cart.push({ cartId, name: finalName, size: selectedSize, price: finalPrice, qty: currentQty });
+    }
+    
     updateCartUI(); alert("Сагсанд нэмэгдлээ");
 }
 
