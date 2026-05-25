@@ -22,7 +22,7 @@
         .cart-icon-btn { position: relative; background: none; border: none; cursor: pointer; padding: 5px; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
 
-        /* HERO HOME SECTION (Нүүр хэсэгт лого тусдаа байрлах) */
+        /* HERO HOME SECTION */
         .hero-section { width: 100%; height: 60vh; max-height: 450px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://i.postimg.cc/PrZQPYHB/Luxury-Footwear-Logo.png') no-repeat center center; background-size: contain; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #222; padding: 20px; box-sizing: border-box; }
         .hero-title { font-size: 24px; color: var(--gold); font-weight: bold; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         .hero-subtitle { font-size: 14px; color: #ccc; max-width: 400px; line-height: 1.5; }
@@ -35,6 +35,11 @@
         .slider-wrapper { display: flex; transition: transform 0.4s ease-out; width: 100%; height: 100%; }
         .slider-item { min-width: 100%; height: 100%; }
         .slider-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* IMAGE DOTS INDICATOR */
+        .slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+        .dot { width: 8px; height: 8px; background: #333; border-radius: 50%; transition: 0.2s; }
+        .dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
 
         /* THUMBNAILS */
         .product-list-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: #0a0a0a; border-bottom: 1px solid #222; scrollbar-width: none; }
@@ -63,7 +68,7 @@
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222; }
         .remove-btn { color: var(--red); background: none; border: 1px solid var(--red); padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
 
-        /* ORDER FORM & REFINED QR SECTION */
+        /* ORDER FORM */
         .order-form { padding: 20px; background: #111; border-top: 1px solid #222; }
         .order-form input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; background: #222; border: 1px solid #333; color: #fff; box-sizing: border-box; }
         
@@ -105,6 +110,7 @@
 <div class="slider-container" id="slider">
     <div class="slider-wrapper" id="slider-wrapper"></div>
 </div>
+<div class="slider-dots" id="slider-dots"></div>
 
 <div class="product-list-scroll" id="product-list"></div>
 
@@ -195,63 +201,109 @@
 </div>
 
 <script>
-// Төлбөр тооцоо, зураг болон мэдээллийг шинэчилсэн бүтээгдэхүүний жагсаалт
+// Эхний гутлыг дотроо 2 зурагтай (images массивтай) нэг бүтээгдэхүүн болголоо
 const products = [
-    { id: 1, name: "Уран | Морин Циркийн Гутал (Хажуу харагдац)", desc: "Дээд зэргийн чанартай арьсаар хийсэн, гар урлалын урт түрийтэй морин циркийн гутал", price: 250000, img: "https://i.postimg.cc/85zK0X8Q/gutal-side.png" },
-    { id: 2, name: "Уран | Морин Циркийн Гутал (Урд харагдац)", desc: "Хөдөлгөөнд бүрэн эвтэйхэн, бат бөх, мэргэжлийн түвшний хийц", price: 250000, img: "https://i.postimg.cc/K8sD3Hym/gutal-front.png" },
-    { id: 3, name: "Uran Oxford Elite", desc: "Premium office wear", price: 270000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+3" },
-    { id: 4, name: "Uran Loafer Pro", desc: "Comfortable daily loafer", price: 240000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+4" },
-    { id: 5, name: "Uran Chelsea Black", desc: "Sleek fall style boots", price: 320000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+5" },
-    { id: 6, name: "Uran Urban Soft", desc: "Soft skin leather shoes", price: 230000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+6" },
-    { id: 7, name: "Uran Monk Strap", desc: "Double strap luxury", price: 290000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+7" },
-    { id: 8, name: "Uran Formal Blue", desc: "Unique blue leather", price: 280000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+8" },
-    { id: 9, name: "Uran Casual Grey", desc: "Lightweight leather sneakers", price: 220000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+9" },
-    { id: 10, name: "Uran Masterpiece", desc: "Limited edition artisan", price: 450000, img: "https://via.placeholder.com/600x600/111/gold?text=GUTAL+10" }
+    { 
+        id: 1, 
+        name: "Уран | Морин Циркийн Гутал", 
+        desc: "Дээд зэргийн чанартай арьсаар хийсэн, гар урлалын урт түрийтэй мэргэжлийн морин циркийн гутал.", 
+        price: 250000, 
+        images: ["gutal1.png", "gutal2.png"] // Хажуу болон урд харагдацын зургууд
+    },
+    { id: 2, name: "Uran Oxford Elite", desc: "Premium office wear", price: 270000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+3"] },
+    { id: 3, name: "Uran Loafer Pro", desc: "Comfortable daily loafer", price: 240000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+4"] },
+    { id: 4, name: "Uran Chelsea Black", desc: "Sleek fall style boots", price: 320000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+5"] },
+    { id: 5, name: "Uran Urban Soft", desc: "Soft skin leather shoes", price: 230000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+6"] },
+    { id: 6, name: "Uran Monk Strap", desc: "Double strap luxury", price: 290000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+7"] },
+    { id: 7, name: "Uran Formal Blue", desc: "Unique blue leather", price: 280000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+8"] },
+    { id: 8, name: "Uran Casual Grey", desc: "Lightweight leather sneakers", price: 220000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+9"] },
+    { id: 9, name: "Uran Masterpiece", desc: "Limited edition artisan", price: 450000, images: ["https://via.placeholder.com/600x600/111/gold?text=GUTAL+10"] }
 ];
 
 let cart = [];
 let selectedSize = "";
 let currentQty = 0;
-let currentIndex = 0;
+let productIndex = 0; // Сонгогдсон бүтээгдэхүүний индекс
+let imageIndex = 0;   // Тухайн бүтээгдэхүүний доторх идэвхтэй зургийн индекс
 
-const wrapper = document.getElementById('slider-wrapper');
 const thumbList = document.getElementById('product-list');
+const wrapper = document.getElementById('slider-wrapper');
+const dotsContainer = document.getElementById('slider-dots');
 
+// Доод талын бүтээгдэхүүний жагсаалтыг үүсгэх (Эхний зургийг нь ковер болгоно)
 products.forEach((p, idx) => {
-    const slide = document.createElement('div'); slide.className = 'slider-item';
-    slide.innerHTML = `<img src="${p.img}">`; wrapper.appendChild(slide);
-    const thumb = document.createElement('img'); thumb.src = p.img;
-    thumb.className = 'product-thumb'; thumb.onclick = () => goToSlide(idx);
+    const thumb = document.createElement('img'); 
+    thumb.src = p.images[0];
+    thumb.className = 'product-thumb'; 
+    thumb.onclick = () => selectProduct(idx);
     thumbList.appendChild(thumb);
 });
 
-function goToSlide(index) {
-    currentIndex = index;
-    wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-    updateUI();
-}
+// Бүтээгдэхүүн сонгох үед слайдер болон мэдээллийг шинэчлэх функц
+function selectProduct(index) {
+    productIndex = index;
+    imageIndex = 0; // Зургийн байрлалыг эхнийх дээр авчирна
+    
+    const p = products[productIndex];
+    
+    // Слайдер дотор зургуудыг бэлдэх
+    wrapper.innerHTML = "";
+    p.images.forEach(imgUrl => {
+        const slide = document.createElement('div');
+        slide.className = 'slider-item';
+        slide.innerHTML = `<img src="${imgUrl}">`;
+        wrapper.appendChild(slide);
+    });
 
-function updateUI() {
-    const p = products[currentIndex];
+    // Цэгнүүдийг (Dots) бэлдэх
+    dotsContainer.innerHTML = "";
+    p.images.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dotsContainer.appendChild(dot);
+    });
+
+    updateSliderPosition();
+    
+    // Текст мэдээллийг солих
     document.getElementById('display-title').innerText = p.name;
     document.getElementById('display-desc').innerText = p.desc;
     document.getElementById('display-price').innerText = p.price.toLocaleString() + "₮";
-    document.querySelectorAll('.product-thumb').forEach((t, i) => t.classList.toggle('active', i === currentIndex));
-    currentQty = 0; document.getElementById('main-qty-val').innerText = "0";
+    
+    // Доод талын жижиг зургуудын идэвхтэйг тэмдэглэх
+    document.querySelectorAll('.product-thumb').forEach((t, i) => t.classList.toggle('active', i === productIndex));
+    
+    currentQty = 0; 
+    document.getElementById('main-qty-val').innerText = "0";
 }
 
+// Слайдер шилжүүлэх функц
+function updateSliderPosition() {
+    wrapper.style.transform = `translateX(-${imageIndex * 100}%)`;
+    // Цэгнүүдийн идэвхтэйг солих
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === imageIndex));
+}
+
+// Хэрэглэгч зургийг хажуу тийш шудрах (Swipe) үед зургуудыг солих
 let startX = 0;
 const slider = document.getElementById('slider');
 slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
 slider.addEventListener('touchend', e => {
+    const p = products[productIndex];
     let diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
-        if (diff > 0 && currentIndex < products.length - 1) goToSlide(currentIndex + 1);
-        else if (diff < 0 && currentIndex > 0) goToSlide(currentIndex - 1);
+        if (diff > 0 && imageIndex < p.images.length - 1) {
+            imageIndex++;
+            updateSliderPosition();
+        } else if (diff < 0 && imageIndex > 0) {
+            imageIndex--;
+            updateSliderPosition();
+        }
     }
 });
 
-goToSlide(0);
+// Эхний гутлыг нээж харуулах
+selectProduct(0);
 
 function selectSize(btn) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
@@ -265,7 +317,7 @@ function updateMainQty(val) {
 
 function addToCart() {
     if(!selectedSize || currentQty === 0) return alert("Хэмжээ болон тоог сонгоно уу");
-    const p = products[currentIndex];
+    const p = products[productIndex];
     const cartId = `${p.id}-${selectedSize}`;
     const idx = cart.findIndex(i => i.cartId === cartId);
     if(idx > -1) cart[idx].qty += currentQty;
