@@ -28,10 +28,10 @@
         .hero-subtitle { font-size: 14px; color: #ccc; max-width: 400px; line-height: 1.5; }
 
         /* SECTION TITLE */
-        .section-title { font-size: 14px; color: #666; padding: 15px 20px 5px 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { font-size: 14px; color: #888; padding: 15px 20px 5px 20px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 
         /* MAIN IMAGE MAIN BOX */
-        .main-image-container { width: 100%; aspect-ratio: 1/1; background: #0a0a0a; position: relative; }
+        .main-image-container { width: 100%; aspect-ratio: 1/1; background: #0a0a0a; position: relative; display: flex; justify-content: center; align-items: center; }
         .main-image-container img { width: 100%; height: 100%; object-fit: contain; }
 
         /* THUMBNAILS */
@@ -49,7 +49,7 @@
         .selection-box { background: #151515; padding: 18px; border-radius: 12px; margin: 15px 0; border: 1px solid #222; }
         .selection-title-sub { font-size: 11px; color: #666; display: block; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px; }
         
-        /* STYLE CHIPS (ЗАГВАР СОНГОЛТ) */
+        /* STYLE CHIPS */
         .style-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
         .style-btn { background: #000; border: 1px solid #333; color: #fff; padding: 12px 15px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 13px; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
         .style-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.08); font-weight: bold; }
@@ -110,7 +110,7 @@
     <div class="hero-subtitle">Гар урлал, чанар, дээд зэрэглэлийн загварыг Уран Хийцээс</div>
 </div>
 
-<div class="section-title">Бүтээгдэхүүнүүд</div>
+<div class="section-title">Цуглуулгууд</div>
 
 <div class="main-image-container">
     <img id="main-product-img" src="" alt="Бүтээгдэхүүн">
@@ -161,7 +161,7 @@
 
     <div class="order-form">
         <div class="qr-section">
-            <div class="qr-title">ТӨЛБӨР ШИЛЖҮҮЛЭХ</div>
+            <div class="qr-title">ТӨЛБОР ШИЛЖҮҮЛЭХ</div>
             
             <div class="bank-details">
                 <div class="bank-row">
@@ -196,7 +196,7 @@
             <span style="color:#888;">Нийт төлөх:</span>
             <span id="cart-total" style="color:var(--gold); font-weight:bold; font-size: 18px;">0₮</span>
         </div>
-        <button id="sendBtn" class="add-to-cart-btn" style="background:var(--gold);" onclick="sendOrder()">ТӨЛБӨР ТӨЛСӨН / ИЛГЭЭХ</button>
+        <button id="sendBtn" class="add-to-cart-btn" style="background:var(--gold);" onclick="sendOrder()">ТӨЛБОР ТӨЛСӨН / ИЛГЭЭХ</button>
     </div>
 </div>
 
@@ -210,35 +210,48 @@
 </div>
 
 <script>
-// Шинэчилсэн бүтээгдэхүүний дата (Загвар бүрт өөр өөр үнэ тохируулсан)
+// Шинэ брэндлэг нэршил, ангилалтай бүтээгдэхүүний дата
 const products = [
     { 
         id: 1, 
-        name: "Уран | Морин Циркийн Гутал", 
-        desc: "Дээд зэргийн чанартай арьсаар хийсэн, гар урлалын мэргэжлийн морин циркийн гутал.", 
+        name: "Уран Урлал | Наадам & Цирк", 
+        desc: "Дээд зэргийн чанартай цэвэр арьсаар урласан, морины соёл болон циркийн мэргэжлийн урт түрийт.", 
         hasVariants: true,
         variants: [
-            { name: "Хажуу цахилгаантай загвар", img: "gutal-side.png", price: 160000 },
+            { name: "Хажуу цахилгаантай хувилбар", img: "gutal-side.png", price: 160000 },
             { name: "Толгой хэсэгт нэмэлт арьстай", img: "gutal-head.png", price: 180000 },
-            { name: "Ардаа цахилгаантай загвар", img: "gutal-back.png", price: 200000 }
+            { name: "Ардаа цахилгаантай хувилбар", img: "gutal-back.png", price: 200000 }
         ]
     },
     { 
         id: 2, 
-        name: "Уран | Сонгодог Савхин Урт Гутал", 
-        desc: "Хөлд маш эвтэйхэн, тансаг загварын гар урлалын дээд зэргийн урт түрийтэй савхин гутал.", 
+        name: "Тансаг Түрийт | Luxury Boots", 
+        desc: "Чамин хэв маяг, төгс суулттай, дээд зэрэглэлийн гоёлын урт түрийтэй цэвэр савхин гутал.", 
         price: 280000, 
         hasVariants: false,
         img: "gutal2_main.png"
     },
-    { id: 3, name: "Uran Oxford Elite", desc: "Premium office wear", price: 270000, hasVariants: false, img: "https://api.dicebear.com/7.x/initials/svg?seed=G3&backgroundColor=111111" },
-    { id: 4, name: "Uran Loafer Pro", desc: "Comfortable daily loafer", price: 240000, hasVariants: false, img: "https://api.dicebear.com/7.x/initials/svg?seed=G4&backgroundColor=111111" },
-    { id: 5, name: "Uran Chelsea Black", desc: "Sleek fall style boots", price: 320000, hasVariants: false, img: "https://api.dicebear.com/7.x/initials/svg?seed=G5&backgroundColor=111111" }
+    { 
+        id: 3, 
+        name: "Чөлөөт Чамин | Premium Botink", 
+        desc: "Өдөр тутам болон хагас албан ёсны арга хэмжээнд өмсөхөд тохиромжтой хагас түрийтэй чанартай ботинк.", 
+        price: 210000, 
+        hasVariants: false, 
+        img: "botink_main.png" // GitHub-дээ энэ нэрээр зургаа оруулаарай
+    },
+    { 
+        id: 4, 
+        name: "Өдөр Тутмын Тансаглал | Casual Elite", 
+        desc: "Хөлд хамгийн эвтэйхэн, зөөлөн ултай, өдөр тутам өмсөх цэвэр арьсан хөнгөн гутал.", 
+        price: 150000, 
+        hasVariants: false, 
+        img: "casual_main.png" // GitHub-дээ энэ нэрээр зургаа оруулаарай
+    }
 ];
 
 let cart = [];
 let selectedSize = "";
-let selectedVariant = null; // Сонгосон загварын объект
+let selectedVariant = null;
 let currentQty = 0;
 let productIndex = 0;
 
@@ -256,7 +269,7 @@ products.forEach((p, idx) => {
     thumbList.appendChild(thumb);
 });
 
-// Бүтээгдэхүүн солих функц
+// Сонгох функц
 function selectProduct(index) {
     productIndex = index;
     const p = products[productIndex];
@@ -288,12 +301,10 @@ function selectProduct(index) {
     
     document.querySelectorAll('.product-thumb').forEach((t, i) => t.classList.toggle('active', i === productIndex));
     
-    // Сонголтуудыг шинэчлэх
     currentQty = 0;
     document.getElementById('main-qty-val').innerText = "0";
 }
 
-// Загвар дарахад зураг болон үнэ солих
 function changeVariant(vIdx, btnElement) {
     const p = products[productIndex];
     const v = p.variants[vIdx];
@@ -306,7 +317,6 @@ function changeVariant(vIdx, btnElement) {
     btnElement.classList.add('active');
 }
 
-// Эхний бүтээгдэхүүнийг харуулах
 selectProduct(0);
 
 function selectSize(btn) {
@@ -383,7 +393,7 @@ function sendOrder() {
     }).then(() => { 
         document.getElementById('paymentModal').style.display = 'flex';
         cart = []; updateCartUI(); toggleCart(); 
-        btn.innerText = "ТӨЛБӨР ТӨЛСӨН / ИЛГЭЭХ"; btn.disabled = false;
+        btn.innerText = "ТӨЛБОР ТӨЛСӨН / ИЛГЭЭХ"; btn.disabled = false;
     }).catch(() => {
         alert("Алдаа гарлаа"); btn.disabled = false;
     });
