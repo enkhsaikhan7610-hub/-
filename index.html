@@ -170,7 +170,7 @@
                 </div>
                 <div class="bank-row">
                     <span class="bank-label">Нэр:</span>
-                    <span class="bank-value" id="acc-name">Б. ТЭМҮҮЛЭН</span>
+                    <span class="bank-value" id="acc-name">Б. ЭНХСАЙХАН</span>
                 </div>
                 <div class="bank-row">
                     <span class="bank-label">Данс:</span>
@@ -213,7 +213,6 @@
 </div>
 
 <script>
-// Морин циркийн 3 загварыг зургийн нэрсийн дагуу нэг дор оруулсан дата
 const products = [
     { 
         id: 1, 
@@ -239,7 +238,6 @@ const mainImg = document.getElementById('main-product-img');
 const styleSection = document.getElementById('style-selection-wrapper');
 const styleContainer = document.getElementById('style-options-container');
 
-// Жагсаалт үүсгэх
 products.forEach((p, idx) => {
     const thumb = document.createElement('img'); 
     thumb.src = p.hasVariants ? p.variants[0].img : p.img;
@@ -248,7 +246,6 @@ products.forEach((p, idx) => {
     thumbList.appendChild(thumb);
 });
 
-// Сонгох функц
 function selectProduct(index) {
     productIndex = index;
     const p = products[productIndex];
@@ -352,7 +349,6 @@ function updateQRData() {
     const phone = document.getElementById('p-phone').value || "Utas";
     const qrImg = document.getElementById('payment-qr-img');
     
-    // Банкны системүүд шууд унших стандарт формат (Данс, Дүн, Утга)
     const qrData = `HasBank-5003793719-91003200-Amt:${totalAmount}-Desc:${phone}`;
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
 }
@@ -382,7 +378,7 @@ function sendOrder() {
     }).then(() => { 
         document.getElementById('paymentModal').style.display = 'flex';
         cart = []; updateCartUI(); toggleCart(); 
-        btn.innerText = "ТӨЛБОР ТӨЛСӨН / ИЛГЭЭХ"; btn.disabled = false;
+        btn.innerText = "ТӨЛӨР ТӨЛСӨН / ИЛГЭЭХ"; btn.disabled = false;
     }).catch(() => {
         alert("Алдаа гарлаа"); btn.disabled = false;
     });
