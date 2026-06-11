@@ -194,7 +194,6 @@
 
         <input type="text" id="p-name" placeholder="Таны нэр">
         <input type="tel" id="p-phone" placeholder="Утасны дугаар" oninput="updateQRData()">
-        <input type="email" id="p-email" placeholder="И-мэйл хаяг">
         
         <div style="display:flex; justify-content:space-between; margin:15px 0;">
             <span style="color:#888;">Нийт төлөх:</span>
@@ -370,15 +369,14 @@ function copyAccount() {
 function sendOrder() {
     const name = document.getElementById('p-name').value;
     const phone = document.getElementById('p-phone').value;
-    const email = document.getElementById('p-email').value;
     const btn = document.getElementById('sendBtn');
 
-    if(!name || !phone || !email || cart.length === 0) return alert("Мэдээллээ бүрэн бөглөнө үү");
+    if(!name || !phone || cart.length === 0) return alert("Мэдээллээ бүрэн бөглөнө үү");
     
     btn.innerText = "Илгээж байна..."; btn.disabled = true;
 
     emailjs.send('service_izdours', 'template_ix01rik', {
-        from_name: name, phone: phone, user_email: email,
+        from_name: name, phone: phone,
         order_details: cart.map(i => `${i.name} (${i.size}-${i.qty}ш)`).join(", "),
         total_price: document.getElementById('cart-total').innerText
     }).then(() => { 
