@@ -169,6 +169,10 @@
                     <span class="bank-value">ХАС БАНК</span>
                 </div>
                 <div class="bank-row">
+                    <span class="bank-label">Нэр:</span>
+                    <span class="bank-value" id="acc-name">Б. ТЭМҮҮЛЭН</span>
+                </div>
+                <div class="bank-row">
                     <span class="bank-label">Данс:</span>
                     <span class="bank-value" id="acc-num">5003793719</span>
                 </div>
@@ -182,14 +186,14 @@
             </div>
             
             <div class="qr-image-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HasBank-5003793719-91003200" class="qr-img" alt="Payment QR">
+                <img id="payment-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HasBank-5003793719-91003200" class="qr-img" alt="Payment QR">
             </div>
             
             <div class="qr-hint">Гүйлгээний утга дээр өөрийн <br><b>УТАСНЫ ДУГААРЫГ</b> заавал бичнэ үү.</div>
         </div>
 
         <input type="text" id="p-name" placeholder="Таны нэр">
-        <input type="tel" id="p-phone" placeholder="Утасны дугаар">
+        <input type="tel" id="p-phone" placeholder="Утасны дугаар" oninput="updateQRData()">
         <input type="email" id="p-email" placeholder="И-мэйл хаяг">
         
         <div style="display:flex; justify-content:space-between; margin:15px 0;">
@@ -341,6 +345,17 @@ function updateCartUI() {
         </div>`;
     });
     document.getElementById('cart-total').innerText = total.toLocaleString() + "₮";
+    updateQRData();
+}
+
+function updateQRData() {
+    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const phone = document.getElementById('p-phone').value || "Utas";
+    const qrImg = document.getElementById('payment-qr-img');
+    
+    // Банкны системүүд шууд унших стандарт формат (Данс, Дүн, Утга)
+    const qrData = `HasBank-5003793719-91003200-Amt:${totalAmount}-Desc:${phone}`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
 }
 
 function removeItem(id) { cart = cart.filter(i => i.cartId !== id); updateCartUI(); }
